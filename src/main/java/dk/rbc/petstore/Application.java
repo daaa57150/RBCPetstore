@@ -4,9 +4,12 @@ import java.util.Arrays;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
 
-@SpringBootApplication
+
+@SpringBootApplication //means @Configuration & @EnableAutoConfiguration
+@EntityScan(basePackages={"dk.rbc.petstore.domain"})
 public class Application {
 
     public static void main(String[] args) {

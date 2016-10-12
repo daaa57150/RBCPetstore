@@ -10,6 +10,8 @@
     <Loggers>
         
         <Logger name="dk.rbc.petstore" level="debug" />
+        
+        <Logger name="org.hibernate.SQL" level="debug" />
     
         <Root level="error">
             <AppenderRef ref="Console" />
