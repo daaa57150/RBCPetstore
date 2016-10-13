@@ -22,9 +22,9 @@ public class CategoryDaoImpl implements CategoryDao {
     /** {@inheritDoc} */
     @Override
     public Category createCategoryWithName(String name) {
-        Category status = new Category(name);
-        repo.save(status);
-        return status;
+        Category category = new Category(name);
+        repo.save(category);
+        return category;
     }
 
     /** {@inheritDoc} */

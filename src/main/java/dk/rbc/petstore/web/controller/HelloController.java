@@ -1,4 +1,4 @@
-package dk.rbc.petstore.web;
+package dk.rbc.petstore.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

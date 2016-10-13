@@ -1,4 +1,4 @@
-package dk.rbc.petstore.web;
+package dk.rbc.petstore.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dk.rbc.petstore.domain.entities.Pet;
 import dk.rbc.petstore.service.CategoryService;
 import dk.rbc.petstore.service.PetService;
+import dk.rbc.petstore.web.Response;
 
 /**
  * Controller for pets
@@ -36,16 +37,25 @@ public class PetController {
     
     
     /**
-     * Creates a pet
-     * @param pet
+     * Creates a pet 
+     * @param pet the pet to create 
      */
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String createPet(@RequestBody Pet pet) {
-        //TODO: create the pet
-        LOGGER.debug("TODO: Create this pet: ");
-        LOGGER.debug(pet.toString());
-        
-        return "TODO!";
+    public Response<Pet> createPet(@RequestBody Pet pet) {
+        try {
+            Pet created = petService.createPet(pet);
+            
+            if(LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Pet created: ");
+                LOGGER.debug(created.toString());
+            }
+            
+            return new Response<>(created);
+        }
+        catch(Exception e) {
+            LOGGER.error("Could not create pet: " + pet, e);
+            return new Response<>(e);
+        }
     }
 }
