@@ -90,6 +90,12 @@
             <version>3.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+                
+
         
         <!-- ==== test ==== -->
         <dependency>
@@ -97,7 +103,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-    
     </dependencies>
     
 

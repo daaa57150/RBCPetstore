@@ -1,4 +1,4 @@
-package dk.rbc.petstore.domain;
+package dk.rbc.petstore.domain.entities;
 
 import java.io.Serializable;
 
@@ -11,12 +11,12 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * Represents a pet's status
+ * Represents a pet's category
  * 
  * @author daaa
  */
 @Entity
-public class Status implements Serializable{
+public class Category implements Serializable{
 
     /** Serializable class version uid */
     private static final long serialVersionUID = 7880080832445334174L;
@@ -26,25 +26,31 @@ public class Status implements Serializable{
     @GeneratedValue
     private Long id;
     
-    /** The name of the status */
+    /** The name of the category */
     @Column(nullable = false, unique = true)
     private String name;
 
     
+    
+    
+    // === CONSTRUCTORS === //
+    
     /** Default constructor, needed by JPA */
-    public Status() {
+    public Category() {
         super();
     }
 
     /**
      * Constructor
-     * @param name the status' name
+     * @param name the category's name
      */
-    public Status(String name) {
+    public Category(String name) {
         super();
         this.name = name;
     }
 
+    
+    // === GETTERS AND SETTERS === //
     
     /** @return the id */
     public Long getId() {
@@ -66,6 +72,8 @@ public class Status implements Serializable{
         this.name = name;
     }
     
+    
+    // === TOSTRING ETC === //
     
     /** (@inheritDoc) */
     @Override

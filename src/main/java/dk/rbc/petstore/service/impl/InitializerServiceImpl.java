@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dk.rbc.petstore.domain.StatusEnum;
-import dk.rbc.petstore.persistence.dao.StatusDao;
+import dk.rbc.petstore.persistence.dao.CategoryDao;
 import dk.rbc.petstore.service.InitializerService;
 
 /**
@@ -19,17 +18,28 @@ public class InitializerServiceImpl implements InitializerService {
    
     /** Status DAO */
     @Autowired
-    private StatusDao statusDao;
+    private CategoryDao categoryDao;
+    
+    /** The categories inserted by this service when calling createCategories */
+    public static final String[] INITIAL_CATEGORIES = new String[] {
+        "dog", "cat", "snake"
+    };
 
     /**
-     * Creates the statuses from {@link StatusEnum}:
+     * Creates the categories from {@link INITIAL_CATEGORIES}:
      */
     @Override
     @Transactional
-    public void createStatuses() {
-        for(StatusEnum status : StatusEnum.values()) {
-            statusDao.createStatusWithName(status.name().toLowerCase());
+    public void createCategories() {
+        for(String category: INITIAL_CATEGORIES) {
+            categoryDao.createCategoryWithName(category);
         }
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String[] getInitialCategoryNames() {
+        return INITIAL_CATEGORIES;
     }
 
     /**
@@ -39,5 +49,7 @@ public class InitializerServiceImpl implements InitializerService {
     public void createPets() {
         // TODO Create pets!
     }
+    
+    
     
 }

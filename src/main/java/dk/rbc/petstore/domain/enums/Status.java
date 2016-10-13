@@ -1,11 +1,11 @@
-package dk.rbc.petstore.domain;
+package dk.rbc.petstore.domain.enums;
 
 /**
  * The possible statuses for a pet
  * 
  * @author daaa
  */
-public enum StatusEnum {
+public enum Status {
     
     /** Pet is available to be bought */
     AVAILABLE, 

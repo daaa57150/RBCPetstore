@@ -2,14 +2,14 @@ package dk.rbc.petstore.persistence.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import dk.rbc.petstore.domain.Status;
+import dk.rbc.petstore.domain.entities.Category;
 
 /**
  * Spring Data JPA repository to access statuses in the DB 
  * 
  * @author daaa
  */
-public interface StatusRepo extends CrudRepository<Status, Long> { 
+public interface CategoryRepo extends CrudRepository<Category, Long> { 
     
     /**
      * Finds the status with the given name
@@ -17,5 +17,5 @@ public interface StatusRepo extends CrudRepository<Status, Long> {
      * @param name the name of the status to look for
      * @return the status with the given name; null otherwise
      */
-    Status findOneByName(String name);
+    Category findOneByName(String name);
 }

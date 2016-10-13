@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import dk.rbc.petstore.domain.Status;
-import dk.rbc.petstore.persistence.repositories.StatusRepo;
+import dk.rbc.petstore.domain.entities.Category;
+import dk.rbc.petstore.persistence.repositories.CategoryRepo;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -19,21 +19,21 @@ public class RepositoryTests {
 //    private TestEntityManager entityManager;
 
     @Autowired
-    private StatusRepo statusRepo;
+    private CategoryRepo categoryRepo;
 
     @Test
-    public void testStatusRepo() {
+    public void testCategoryRepo() {
         
         // insert one
         String testName = "testname";
-        Status testStatus = new Status(testName);
-        statusRepo.save(testStatus);
+        Category testStatus = new Category(testName);
+        categoryRepo.save(testStatus);
         
         // did it get an id?
         assertThat(testStatus.getId()).isNotNull();
         
         // find it and see if the name matches
-        assertThat(statusRepo.findOneByName(testName).getName()).isEqualTo(testName);
+        assertThat(categoryRepo.findOneByName(testName).getName()).isEqualTo(testName);
     }
  
 
