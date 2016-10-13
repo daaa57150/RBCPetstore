@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
  * 
  * @author daaa
  */
-@SpringBootApplication //means @Configuration & @EnableAutoConfiguration
+@SpringBootApplication //means @Configuration, @EnableAutoConfiguration & @ComponentScan
 @EntityScan(basePackages={"dk.rbc.petstore.domain"})
 public class Application {
     

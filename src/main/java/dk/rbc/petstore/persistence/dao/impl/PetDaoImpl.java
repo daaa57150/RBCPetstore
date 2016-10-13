@@ -2,8 +2,6 @@ package dk.rbc.petstore.persistence.dao.impl;
 
 import java.lang.reflect.InvocationTargetException;
 
-import dk.rbc.petstore.persistence.PersistenceException;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
+import dk.rbc.petstore.domain.enums.Status;
+import dk.rbc.petstore.persistence.PersistenceException;
 import dk.rbc.petstore.persistence.dao.CategoryDao;
 import dk.rbc.petstore.persistence.dao.PetDao;
 import dk.rbc.petstore.persistence.repositories.PetRepo;
@@ -65,7 +65,11 @@ public class PetDaoImpl implements PetDao{
             throw new PersistenceException("The category " + category + " does not exist");
         }
         
-        return pet;
+        pet.setName(name);
+        pet.setCategory(categoryObj);
+        pet.setStatus(Status.AVAILABLE);
+        
+        return repo.save(pet);
     }
 
     /** {@inheritDoc} */

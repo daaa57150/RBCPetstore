@@ -36,5 +36,5 @@ public class RepositoryTests {
         assertThat(categoryRepo.findOneByName(testName).getName()).isEqualTo(testName);
     }
  
-
+    
 }

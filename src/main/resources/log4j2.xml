@@ -3,7 +3,7 @@
 
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%L - %msg%n" />
         </Console>
     </Appenders>
     
@@ -13,7 +13,7 @@
         <Logger name="dk.rbc.petstore" level="debug" />
         
         <!-- If set to debug, prints the content of the Spring context -->
-        <Logger name="dk.rbc.petstore.Application" level="info" />
+        <Logger name="dk.rbc.petstore.Application" level="debug" />
         
         <!-- Shows hibernate's SQL -->
         <Logger name="org.hibernate.SQL" level="debug" />

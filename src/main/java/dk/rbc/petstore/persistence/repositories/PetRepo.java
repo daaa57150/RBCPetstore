@@ -10,5 +10,5 @@ import dk.rbc.petstore.domain.entities.Pet;
  * @author daaa
  */
 public interface PetRepo extends CrudRepository<Pet, Long> {
-
+    
 }

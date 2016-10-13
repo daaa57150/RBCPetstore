@@ -43,7 +43,7 @@ public class Pet implements Serializable {
     private ArrayList<String> photoUrls;
     
     /** Category of the pet, see {@link InitializerServiceImpl} for starting values available */
-    @OneToOne(optional = false)
+    @OneToOne//(optional = false)
     private Category category;
     
     /** Status of the pet */
@@ -122,12 +122,26 @@ public class Pet implements Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
+    
+    /**
+     * @return the status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     
     
     
     // === TOSTRING ETC === //
-    
+
     /** (@inheritDoc) */
     @Override
     public String toString() {
