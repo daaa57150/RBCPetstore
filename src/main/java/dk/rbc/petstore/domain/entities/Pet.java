@@ -43,7 +43,7 @@ public class Pet implements Serializable {
     private ArrayList<String> photoUrls;
     
     /** Category of the pet, see {@link InitializerServiceImpl} for starting values available */
-    @OneToOne//(optional = false)
+    @OneToOne(optional = false)
     private Category category;
     
     /** Status of the pet */
