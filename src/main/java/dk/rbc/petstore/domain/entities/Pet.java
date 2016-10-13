@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -43,7 +44,8 @@ public class Pet implements Serializable {
     private ArrayList<String> photoUrls;
     
     /** Category of the pet, see {@link InitializerServiceImpl} for starting values available */
-    @OneToOne(optional = false)
+    //@OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Category category;
     
     /** Status of the pet */

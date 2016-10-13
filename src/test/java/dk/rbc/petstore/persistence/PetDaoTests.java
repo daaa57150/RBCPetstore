@@ -72,12 +72,15 @@ public class PetDaoTests {
         petRepo.save(testPetSaved);
         LOGGER.info("Saved pet: ");
         LOGGER.info(testPetSaved.toString());
+        LOGGER.info("## SET UP OK ##");
     }
     
     
     /** Cleans the test data after the class has run */
     @After // cannot easily use @AfterClass with JUnit
     public void tearDown() {
+        LOGGER.info("## TEAR DOWN... ##");
+        
         if(categoryRepo.exists(testCategorySaved.getId())) {
             categoryRepo.delete(testCategorySaved);
             LOGGER.info("Deleted category: " + testCategorySaved);
@@ -105,6 +108,19 @@ public class PetDaoTests {
         Assert.assertEquals(gunther.getName(), guntherSaved.getName());
         
         LOGGER.info("test ok");
+    }
+    
+    /**
+     * Tests if multiple pets can be created with the same category
+     */
+    @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
+    public void testCreateManyPets() {
+        Pet pet1 = petDao.createPet(new Pet("pet1", testCategorySaved));
+        Pet pet2 = petDao.createPet(new Pet("pet2", testCategorySaved));
+        
+        Assert.assertNotNull(pet1);
+        Assert.assertNotNull(pet2);
     }
 
     /**
