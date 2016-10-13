@@ -10,21 +10,27 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * Represents a pet's status
+ * 
+ * @author daaa
+ */
 @Entity
 public class Status implements Serializable{
 
     /** Serializable class version uid */
     private static final long serialVersionUID = 7880080832445334174L;
 
+    /** The id */
     @Id
     @GeneratedValue
     private Long id;
     
-    @Column(nullable = false)
+    /** The name of the status */
+    @Column(nullable = false, unique = true)
     private String name;
-    
-    
 
+    
     /** Default constructor, needed by JPA */
     public Status() {
         super();
@@ -40,9 +46,6 @@ public class Status implements Serializable{
     }
 
     
-    
-    
-    //TODO: test if setId is needed
     /** @return the id */
     public Long getId() {
         return id;

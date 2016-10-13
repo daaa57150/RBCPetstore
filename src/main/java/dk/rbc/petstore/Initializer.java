@@ -1,17 +1,14 @@
-package dk.rbc.petstore.conf;
-
-import java.util.List;
+package dk.rbc.petstore;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dk.rbc.petstore.dao.PetRepository;
-import dk.rbc.petstore.domain.Status;
+import dk.rbc.petstore.persistence.dao.StatusDao;
+import dk.rbc.petstore.service.impl.InitializerServiceImpl;
 
 @Component
 public class Initializer {
@@ -19,34 +16,40 @@ public class Initializer {
     /** The logger */
     private static final Logger LOGGER = LoggerFactory.getLogger(Initializer.class);
 
-    
+    /** Service to initialize the data for the demo */
     @Autowired
-    private EntityManager entityManager;
+    private InitializerServiceImpl initService;
     
+    /** Direct access to the DB statuses */
     @Autowired
-    private InitializerService initService;
+    private StatusDao statusDao;
     
-    @Autowired
-    private PetRepository petRepo;
     
-    /**
-     * Inserts the demo data in the DB when the application launches
-     */
+    /** Inserts the demo data in the DB when the application launches */
     @PostConstruct
-    public void initData() {
+    public void init() {
         LOGGER.info("Inserting data...");
         
-        Status statusAvailable = initService.createStatusWithName("available");
-        Status statusPending = initService.createStatusWithName("pending");
-        Status statusSold = initService.createStatusWithName("sold");
+        LOGGER.debug("# statuses...");
+        initService.createStatuses();
+        
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Inserted statuses: ");
+            statusDao.findAllStatuses().forEach(status -> {
+                LOGGER.debug(status.toString());
+            });
+        }
         
         
-        LOGGER.debug("Data inserted.");
+        LOGGER.debug("# pets...");
+        // TODO: insert pets
+        
+        LOGGER.info("Data inserted.");
     }
     
     
     
-    
+    /*
     @PostConstruct
     public void testEntityManager() {
         System.out.println("POST CONSTRUCT!!");
@@ -60,6 +63,6 @@ public class Initializer {
         
         
     }
-    
+    */
     
 }
