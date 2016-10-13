@@ -9,13 +9,19 @@
     
     <Loggers>
         
+        <!-- Our app root -->
         <Logger name="dk.rbc.petstore" level="debug" />
         
+        <!-- If set to debug, prints the content of the Spring context -->
+        <Logger name="dk.rbc.petstore.Application" level="info" />
+        
+        <!-- Shows hibernate's SQL -->
         <Logger name="org.hibernate.SQL" level="debug" />
     
         <Root level="error">
             <AppenderRef ref="Console" />
         </Root>
+        
     </Loggers>
     
 </Configuration>

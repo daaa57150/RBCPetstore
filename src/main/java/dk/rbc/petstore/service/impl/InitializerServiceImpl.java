@@ -1,11 +1,13 @@
 package dk.rbc.petstore.service.impl;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import dk.rbc.petstore.domain.StatusEnum;
 import dk.rbc.petstore.persistence.dao.StatusDao;
+import dk.rbc.petstore.service.InitializerService;
 
 /**
  * Creates the needed data for the demo
@@ -20,17 +22,14 @@ public class InitializerServiceImpl implements InitializerService {
     private StatusDao statusDao;
 
     /**
-     * Creates the following statuses:
-     *  - available
-     *  - pending
-     *  - sold
+     * Creates the statuses from {@link StatusEnum}:
      */
     @Override
     @Transactional
     public void createStatuses() {
-        statusDao.createStatusWithName("available");
-        statusDao.createStatusWithName("pending");
-        statusDao.createStatusWithName("sold");
+        for(StatusEnum status : StatusEnum.values()) {
+            statusDao.createStatusWithName(status.name().toLowerCase());
+        }
     }
 
     /**

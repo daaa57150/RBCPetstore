@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import dk.rbc.petstore.domain.Status;
 import dk.rbc.petstore.persistence.dao.StatusDao;
 import dk.rbc.petstore.service.impl.InitializerServiceImpl;
 
@@ -39,6 +40,12 @@ public class Initializer {
                 LOGGER.debug(status.toString());
             });
         }
+        
+        // test look for one status...
+        Status available = statusDao.findStatusByName("available");
+        Status none = statusDao.findStatusByName("plop");
+        LOGGER.debug(available.toString());
+        LOGGER.debug(none == null ? null : none.toString());
         
         
         LOGGER.debug("# pets...");

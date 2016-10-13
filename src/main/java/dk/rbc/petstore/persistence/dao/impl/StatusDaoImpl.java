@@ -30,8 +30,7 @@ public class StatusDaoImpl implements StatusDao {
     /** {@inheritDoc} */
     @Override
     public Status findStatusByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        return repo.findOneByName(name);
     }
     
     /** {@inheritDoc} */

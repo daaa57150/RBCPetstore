@@ -1,4 +1,4 @@
-package dk.rbc.petstore.service.impl;
+package dk.rbc.petstore.service;
 
 /**
  * Exposes all needed methods to populate the application when it starts

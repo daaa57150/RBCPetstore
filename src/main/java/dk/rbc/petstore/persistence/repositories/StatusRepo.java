@@ -10,5 +10,12 @@ import dk.rbc.petstore.domain.Status;
  * @author daaa
  */
 public interface StatusRepo extends CrudRepository<Status, Long> { 
-
+    
+    /**
+     * Finds the status with the given name
+     * 
+     * @param name the name of the status to look for
+     * @return the status with the given name; null otherwise
+     */
+    Status findOneByName(String name);
 }
