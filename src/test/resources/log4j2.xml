@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+    </Appenders>
+    
+    <Loggers>
+        
+        <!-- Our app root -->
+        <Logger name="dk.rbc.petstore" level="info" />
+        
+        <!-- Shows hibernate's SQL -->
+<!--         <Logger name="org.hibernate.SQL" level="debug" /> -->
+    
+        <Root level="error">
+            <AppenderRef ref="Console" />
+        </Root>
+        
+    </Loggers>
+    
+</Configuration>

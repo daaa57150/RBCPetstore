@@ -9,32 +9,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * Represents a Pet
+ * 
+ * @author daaa
+ */
 @Entity
 public class Pet implements Serializable {
     
     /** Serializable class version uid */
     private static final long serialVersionUID = -529670939573880286L;
 
+    /** The id */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     
+    /** The name of the pet */
     @Column(nullable = false)
     private String name;
     
+    /** A list of photo urls */
     @Column(length = 65535, nullable=true)
     private ArrayList<String> photoUrls;
     
+    /** Status of the pet, see {@link StatusEnum} for available values */
+    @OneToOne
+    private Status status;
+    
+   
     
     
-    
-    
-    //TODO: test if setId is needed
-    
+
     /** @return the id */
     public Long getId() {
         return id;
@@ -61,7 +72,7 @@ public class Pet implements Serializable {
     }
 
     /** @param photoUrls the photoUrls to set */
-    public void setPhotoUrls(List<String> photoUrls) {
+    public void setPhotoUrls(ArrayList<String> photoUrls) {
         if(photoUrls == null) {
             this.photoUrls = null;
         }
@@ -70,6 +81,21 @@ public class Pet implements Serializable {
             this.photoUrls.addAll(photoUrls);
         }
     }
+    
+    /**
+     * @return the status
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     
     
     

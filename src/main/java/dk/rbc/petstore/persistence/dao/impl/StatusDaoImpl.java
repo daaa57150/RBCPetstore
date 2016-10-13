@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dk.rbc.petstore.domain.Status;
+import dk.rbc.petstore.domain.StatusEnum;
 import dk.rbc.petstore.persistence.dao.StatusDao;
 import dk.rbc.petstore.persistence.repositories.StatusRepo;
 
@@ -31,6 +32,12 @@ public class StatusDaoImpl implements StatusDao {
     @Override
     public Status findStatusByName(String name) {
         return repo.findOneByName(name);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Status findStatus(StatusEnum status) {
+        return findStatusByName(status.name().toLowerCase());
     }
     
     /** {@inheritDoc} */

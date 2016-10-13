@@ -8,9 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dk.rbc.petstore.domain.Status;
+import dk.rbc.petstore.domain.StatusEnum;
 import dk.rbc.petstore.persistence.dao.StatusDao;
 import dk.rbc.petstore.service.impl.InitializerServiceImpl;
 
+/**
+ * Initializes the app when it starts.
+ * 
+ * @author daaa
+ */
 @Component
 public class Initializer {
 
@@ -42,7 +48,7 @@ public class Initializer {
         }
         
         // test look for one status...
-        Status available = statusDao.findStatusByName("available");
+        Status available = statusDao.findStatus(StatusEnum.AVAILABLE);
         Status none = statusDao.findStatusByName("plop");
         LOGGER.debug(available.toString());
         LOGGER.debug(none == null ? null : none.toString());
