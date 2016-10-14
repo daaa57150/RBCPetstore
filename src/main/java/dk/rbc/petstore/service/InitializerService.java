@@ -8,9 +8,6 @@ package dk.rbc.petstore.service;
  */
 public interface InitializerService {
     
-    /** Get the names of the initial categories  */
-    String[] getInitialCategoryNames();
-    
     /** Should create the pet categories needed for the demo */
     void createCategories();
     

@@ -18,8 +18,10 @@ import org.springframework.context.ApplicationContext;
 @EntityScan(basePackages={"dk.rbc.petstore.domain"})
 public class Application {
     
+    /** The logger */
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
+    /** Main function, used by Spring boot to run */
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
 

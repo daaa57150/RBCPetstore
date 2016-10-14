@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dk.rbc.petstore.persistence.dao.CategoryDao;
+import dk.rbc.petstore.service.CategoryService;
+import dk.rbc.petstore.service.PetService;
 import dk.rbc.petstore.service.impl.InitializerServiceImpl;
 
 /**
@@ -25,9 +26,13 @@ public class Initializer {
     @Autowired
     private InitializerServiceImpl initService;
     
-    /** Direct access to the DB statuses */
+    /** Access to the DB categories */
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryService categoryService;
+    
+    /** Access to the DB pets */
+    @Autowired
+    private PetService petService;
     
     
     /** Inserts the demo data in the DB when the application launches */
@@ -40,13 +45,20 @@ public class Initializer {
         
         if(LOGGER.isDebugEnabled()) {
             LOGGER.debug("Inserted categories: ");
-            categoryDao.findAllCategories().forEach(category -> {
+            categoryService.findAllCategories().forEach(category -> {
                 LOGGER.debug(category.toString());
             });
         }
         
         LOGGER.debug("# pets...");
-        // TODO: insert pets
+        initService.createPets();
+        
+        if(LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Inserted pets: ");
+            petService.findAllPets().forEach(pet -> {
+                LOGGER.debug(pet.toString());
+            });
+        }
         
         LOGGER.info("Data inserted.");
     }
