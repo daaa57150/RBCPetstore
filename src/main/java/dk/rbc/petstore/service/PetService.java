@@ -31,6 +31,12 @@ public interface PetService {
      */
     Pet findPetById(Long id);
     
+    /**
+     * Get all the pets
+     * 
+     * @return all the pets in the DB
+     */
+    Iterable<Pet> findAllPets();
     
     /**
      * Deletes a pet by its id

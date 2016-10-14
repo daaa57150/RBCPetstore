@@ -49,4 +49,11 @@ public class PetServiceImpl implements PetService {
         return dao.deletePetById(id);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    @Transactional
+    public Iterable<Pet> findAllPets() {
+        return dao.findAllPets();
+    }
+
 }

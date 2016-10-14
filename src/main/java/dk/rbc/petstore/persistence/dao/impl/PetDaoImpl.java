@@ -89,6 +89,12 @@ public class PetDaoImpl implements PetDao{
         repo.delete(id);
         return true;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public Iterable<Pet> findAllPets() {
+        return repo.findAll();
+    }
     
 }
 

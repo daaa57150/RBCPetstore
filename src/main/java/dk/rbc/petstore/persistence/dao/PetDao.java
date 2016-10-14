@@ -39,4 +39,10 @@ public interface PetDao {
      * @return true if a pet was deleted, false if the pet with the given id didn't exist
      */
     boolean deletePetById(Long id);
+
+    /**
+     * Lists all the pets
+     * @return all the pets
+     */
+    Iterable<Pet> findAllPets();
 }
