@@ -14,7 +14,8 @@ public class HelloController {
     @Value("${test.name}")
     private String name;
     
-    @RequestMapping("/")
+    // Ca marche:
+    @RequestMapping("/helloTest")
     public String index() {
         
         String msg = "Greetings from Spring Boot " + name + " !"; 

@@ -5,16 +5,16 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * Response returned by the controllers, which can contain data and error messages. 
+ * Response returned by the controllers, which can contain content and error messages. 
  * 
  * @author daaa
  *
- * @param <T> the type od data the response contains
+ * @param <T> the type of content the response contains
  */
 public class Response<T> {
     
-    /** The data */
-    private T data;
+    /** The content */
+    private T content;
     
     /** An error message, marking the response as failed */
     private String errorMessage;
@@ -33,11 +33,11 @@ public class Response<T> {
     // === CONSTRUCTORS === //
     
     /**
-     * Creates a response with data
-     * @param data
+     * Creates a response with content
+     * @param content
      */
-    public Response(T data) {
-        this.data = data;
+    public Response(T content) {
+        this.content = content;
     }
     
     /**
@@ -67,13 +67,13 @@ public class Response<T> {
     }
     
     // === GETTERS AND SETTERS === //
-    // Only getters here because users should not be able to create it with data + exception for example
+    // Only getters here because users should not be able to create it with content + exception for example
     // Getters are interesting for testing purposes
     /**
-     * @return the data
+     * @return the content
      */
-    public T getData() {
-        return data;
+    public T getContent() {
+        return content;
     }
 
     /**

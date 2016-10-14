@@ -4,12 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
@@ -19,11 +18,11 @@ import dk.rbc.petstore.service.PetService;
 import dk.rbc.petstore.web.Response;
 
 /**
- * Controller for pets and everything related to it (ie: everything for the demo)
+ * Rest controller for pets and everything related to it (ie: everything for the demo)
  * 
  * @author daaa
  */
-@Controller
+@RestController // same as @Controller but adds @ResponseBody to all mappings
 @RequestMapping("pet")
 public class PetController {
     
@@ -45,7 +44,6 @@ public class PetController {
      * @return the response with the created pet
      */
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Pet> createPet(@RequestBody Pet pet) {
         try {
             Pet created = petService.createPet(pet);
@@ -69,7 +67,6 @@ public class PetController {
      * @return the response with the pet found
      */
     @RequestMapping(value = "{petId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Pet> findPetById(@PathVariable("petId") Long id) {
         try {
             Pet found = petService.findPetById(id);
@@ -87,7 +84,6 @@ public class PetController {
      * @return the response with a boolean at true if a pet was effectively deleted
      */
     @RequestMapping(value = "{petId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Boolean> deletePet(@PathVariable("petId") Long id) {
         try {
             Boolean deleted = petService.deletePetById(id);
@@ -104,7 +100,6 @@ public class PetController {
      * @return the response with all the pets
      */
     @RequestMapping(value = "list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Iterable<Pet>> listPets() {
         try {
             Iterable<Pet> pets = petService.findAllPets();
@@ -121,7 +116,6 @@ public class PetController {
      * @return the response with all the pet categories
      */
     @RequestMapping(value = "categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Iterable<Category>> categories() {
         try {
             Iterable<Category> categories = categoryService.findAllCategories();
@@ -139,7 +133,6 @@ public class PetController {
      * @return the response with all the pet statuses
      */
     @RequestMapping(value = "statuses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public Response<Status[]> statuses() {
         try {
             Status[] statuses = Status.values();
