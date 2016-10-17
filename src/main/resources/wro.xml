@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+
+    <group name="other">
+<!--         <css>classpath:public/css/first.css</css> -->
+<!--         <css>classpath:public/css/second.css</css> -->
+        
+        <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css>
+        <css>webjar:toastr/2.1.2/toastr.less</css>
+        <css>classpath:public/less/first.less</css>
+    </group>
+    
+</groups>
