@@ -44,20 +44,29 @@
 <!--     JS custom -->
     <script src="js/app.js" type="text/javascript"></script>
     <script src="js/controllers/mainCtrl.js" type="text/javascript"></script>
+    <script src="js/controllers/menuCtrl.js" type="text/javascript"></script>
 
     <!--/* Managed by wro4j */-->
-<!--     <link   rel="stylesheet"            href="css/app.css" /> -->
+<!--     <link   rel="stylesheet"            href="css/app-wro.css" /> -->
 <!--     <script type="text/javascript"      src="js/app.js"></script> -->
-    
+<!--     <link rel="stylesheet" href="css/angular-bootstrap.css" /> -->
+
 
     <title>RBC - Pet Store - DEMO</title>
     
 </head>
 <body class="rbc-pet-store">
+
+    <!--  header -->
     <div class="page-header">
         <img src="img/logo_60.png" />
         Welcome to the pet store!
     </div>
+    
+    <!-- menu -->
+    <th:block th:replace="navigation :: menu"/>
+    
+    <!-- main content -->
     <div class="container-fluid">
         <section x-ng-view=""></section>
     </div>

@@ -8,7 +8,7 @@ angular.module(window.GLOBAL.appName)
 .controller('MainCtrl', function($scope, $location, $window, $http) {
 	console.log("inside main controller");
 	
-	toastr.success("inside main controller 111111.. ");
+	toastr.success("inside main controller 7.. ");
 });
 
 
