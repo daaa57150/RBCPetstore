@@ -4,7 +4,7 @@
     <group name="assets">
         
         <!-- CSS -->
-        <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css>
+<!--         <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css> -->
         <css>webjar:toastr/2.1.2/toastr.less</css>
         
         <!-- JS -->
@@ -27,7 +27,7 @@
         <group-ref>assets</group-ref>
         
         <!-- the app's css -->
-        <css>file:@project.basedir@/src/main/resources/public/less/app.less</css>
+        <css>file:@project.basedir@/src/main/resources/less/app.less</css>
         
         <!-- the app's js files -->
         <js>file:@project.basedir@/src/main/resources/public/js/app.js</js>
