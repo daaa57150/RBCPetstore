@@ -54,7 +54,7 @@ public class TemplateController {
     @RequestMapping("main")
     public String templateIndex() {
         LOGGER.debug("Thymeleaf template main");
-        return "main :: main";
+        return "pets :: main";
     }
     
 }

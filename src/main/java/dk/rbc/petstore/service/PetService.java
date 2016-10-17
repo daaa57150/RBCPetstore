@@ -64,7 +64,18 @@ public interface PetService {
     /**
      * Finds the pets with any of the given statuses
      * @param statuses the statuses of the pet to look for
-     * @return the pets with any of the given statuses
+     * @return the pets with any of the given statuses if any, an empty list otherwise
      */
     Iterable<Pet> findPetByStatus(Collection<Status> statuses);
 }
+
+
+
+
+
+
+
+
+
+
+
