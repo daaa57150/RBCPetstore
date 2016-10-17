@@ -1,6 +1,9 @@
 package dk.rbc.petstore.service;
 
+import java.util.Collection;
+
 import dk.rbc.petstore.domain.entities.Pet;
+import dk.rbc.petstore.domain.enums.Status;
 
 /**
  * Service to manipulate Pets
@@ -8,6 +11,11 @@ import dk.rbc.petstore.domain.entities.Pet;
  * @author daaa
  */
 public interface PetService {
+    
+    // --------- //
+    //// WRITE ////
+    // --------- //
+    
     /**
      * Creates a Pet
      * @param pet the pet to create, serves as a model and shouldn't be touched by the implementations.
@@ -22,6 +30,21 @@ public interface PetService {
      * @return the newly created pet
      */
     Pet createPet(String name, String category);
+    
+    /**
+     * Deletes a pet by its id
+     * @param id the id of the pet to delete
+     * @return true if a pet was deleted, false if the pet with the given id didn't exist
+     */
+    boolean deletePetById(Long id);
+    
+
+    
+    
+    
+    // -------- //
+    //// READ ////
+    // -------- //
     
     /**
      * Finds a pet by its id
@@ -39,9 +62,9 @@ public interface PetService {
     Iterable<Pet> findAllPets();
     
     /**
-     * Deletes a pet by its id
-     * @param id the id of the pet to delete
-     * @return true if a pet was deleted, false if the pet with the given id didn't exist
+     * Finds the pets with any of the given statuses
+     * @param statuses the statuses of the pet to look for
+     * @return the pets with any of the given statuses
      */
-    boolean deletePetById(Long id);
+    Iterable<Pet> findPetByStatus(Collection<Status> statuses);
 }

@@ -1,5 +1,8 @@
 package dk.rbc.petstore.service;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,11 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
+import dk.rbc.petstore.domain.enums.Status;
 import dk.rbc.petstore.persistence.repositories.CategoryRepo;
 import dk.rbc.petstore.persistence.repositories.PetRepo;
 
 /**
- * Tests the Pet Dao
+ * Tests the Pet Service
  * 
  * @author daaa
  */
@@ -54,8 +58,12 @@ public class PetServiceTests {
 //    /** Category used in the test, this instance is detached from the DB */
 //    private Category testCategoryNotSaved = new Category("wolf");
     
-    /** Pet stored in the DB for the tests */
-    private Pet testPetSaved = new Pet("Shelby", testCategorySaved);
+    /** Pets stored in the DB for the tests */
+    private Pet[] testPetsSaved = new Pet[] {
+        new Pet("Shelby",   testCategorySaved, Status.AVAILABLE),
+        new Pet("Leonard",  testCategorySaved, Status.PENDING),
+        new Pet("Francis",  testCategorySaved, Status.SOLD)
+    };
     
     /** And id we're sure is not in the DB */
     private static final Long ID_NOT_IN_DB = -1L;
@@ -68,9 +76,12 @@ public class PetServiceTests {
         categoryRepo.save(testCategorySaved);
         LOGGER.info("Saved category: " + testCategorySaved);
         
-        petRepo.save(testPetSaved);
-        LOGGER.info("Saved pet: ");
-        LOGGER.info(testPetSaved.toString());
+        for(Pet pet: testPetsSaved) {
+            petRepo.save(pet);
+            LOGGER.info("Saved pet: ");
+            LOGGER.info(pet.toString());
+        }
+        
         LOGGER.info("## SET UP OK ##");
     }
     
@@ -80,20 +91,22 @@ public class PetServiceTests {
     public void tearDown() {
         LOGGER.info("## TEAR DOWN... ##");
         
+        for(Pet pet: testPetsSaved) {
+            if(petRepo.exists(pet.getId())) {
+                petRepo.delete(pet);
+                LOGGER.info("Deleted pet: " + pet);
+            }
+        }
+        
         if(categoryRepo.exists(testCategorySaved.getId())) {
             categoryRepo.delete(testCategorySaved);
             LOGGER.info("Deleted category: " + testCategorySaved);
-        }
-        
-        if(petRepo.exists(testPetSaved.getId())) {
-            petRepo.delete(testPetSaved);
-            LOGGER.info("Deleted pet: " + testPetSaved);
         }
     }
     
     
     /**
-     * Tests {@link PetDao.createPet(Pet)}
+     * Tests {@link PetService.createPet(Pet)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
@@ -123,7 +136,7 @@ public class PetServiceTests {
     }
 
     /**
-     * Tests {@link PetDao.createPet(String, Category)}
+     * Tests {@link PetService.createPet(String, Category)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
@@ -140,16 +153,16 @@ public class PetServiceTests {
     }
     
     /**
-     * Tests {@link PetDao.findPetById(Long)}
+     * Tests {@link PetService.findPetById(Long)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
     public void testFindPetById() {
         // existing pet
-        Pet found = petService.findPetById(testPetSaved.getId());
+        Pet found = petService.findPetById(testPetsSaved[0].getId());
         
         Assert.assertNotNull(found);
-        Assert.assertEquals(testPetSaved.getId(), found.getId());
+        Assert.assertEquals(testPetsSaved[0].getId(), found.getId());
         
         // non existing pet
         Pet nope = petService.findPetById(ID_NOT_IN_DB);
@@ -159,7 +172,7 @@ public class PetServiceTests {
     }
     
     /**
-     * Tests {@link PetDao.testDeletePetById(Long)}
+     * Tests {@link PetService.testDeletePetById(Long)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
@@ -169,18 +182,80 @@ public class PetServiceTests {
         Assert.assertFalse(deleted);
         
         // existing pet
-        deleted = petService.deletePetById(testPetSaved.getId());
+        deleted = petService.deletePetById(testPetsSaved[0].getId());
         Assert.assertTrue(deleted);
         
         // confirm it was deleted using the petRepo
-        Pet nope = petRepo.findOne(testPetSaved.getId());
+        Pet nope = petRepo.findOne(testPetsSaved[0].getId());
         Assert.assertNull(nope);
         
         LOGGER.info("test ok");
     }
     
+    /**
+     * Tests {@link PetService.testDeletePetById(Long)}
+     */
+    @Test
+    @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
+    public void testFindPetByStatus() {
+        // find the availables
+        Collection<Pet> av = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE}));
+        Assert.assertNotNull(av);
+        Assert.assertTrue(av.size() == 1);
+        
+        // find the pending
+        Collection<Pet> pe = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.PENDING}));
+        Assert.assertNotNull(pe);
+        Assert.assertTrue(pe.size() == 1);
+        
+        // find the sold
+        Collection<Pet> so = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.SOLD}));
+        Assert.assertNotNull(so);
+        Assert.assertTrue(so.size() == 1);
+        
+        // find the available and pending
+        Collection<Pet> avpe = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE, Status.PENDING}));
+        Assert.assertNotNull(avpe);
+        Assert.assertTrue(avpe.size() == 2);
+       
+        // find the available and sold
+        Collection<Pet> avso = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE, Status.SOLD}));
+        Assert.assertNotNull(avso);
+        Assert.assertTrue(avso.size() == 2);
+        
+        // find all statuses
+        Collection<Pet> all = petRepo.findByStatusIn(Arrays.asList(Status.values()));
+        Assert.assertNotNull(all);
+        Assert.assertTrue(all.size() == 3);
+        
+    }
+    
     //TODO: list pets etc...
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

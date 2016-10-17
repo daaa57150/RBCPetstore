@@ -1,6 +1,7 @@
 package dk.rbc.petstore.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -100,6 +101,13 @@ public class PetServiceImpl implements PetService {
     @Transactional(readOnly = true)
     public Iterable<Pet> findAllPets() {
         return repo.findAll();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    @Transactional(readOnly = true)
+    public Iterable<Pet> findPetByStatus(Collection<Status> statuses) {
+        return repo.findByStatusIn(statuses);
     }
 
 }

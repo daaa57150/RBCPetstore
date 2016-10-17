@@ -61,13 +61,26 @@ public class Pet implements Serializable {
 
     /**
      * Constructor
-     * @param name the pet's name and 
+     * @param name the pet's name
      * @param category the pet's category
      */
     public Pet(String name, Category category) {
         super();
         this.name = name;
         this.category = category;
+    }
+    
+    /**
+     * Constructor
+     * @param name the pet's name
+     * @param category the pet's category
+     * @param status the pet's status
+     */
+    public Pet(String name, Category category, Status status) {
+        super();
+        this.name = name;
+        this.category = category;
+        this.status = status;
     }
     
     
