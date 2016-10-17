@@ -9,6 +9,8 @@ import dk.rbc.petstore.domain.entities.Pet;
  * 
  * @author daaa
  */
+// interesting read on repo types: 
+// http://stackoverflow.com/questions/14014086/what-is-difference-between-crudrepository-and-jparepository-interfaces-in-spring
 public interface PetRepo extends CrudRepository<Pet, Long> {
     
 }

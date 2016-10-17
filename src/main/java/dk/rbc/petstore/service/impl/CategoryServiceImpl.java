@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dk.rbc.petstore.domain.entities.Category;
-import dk.rbc.petstore.persistence.dao.CategoryDao;
+import dk.rbc.petstore.persistence.repositories.CategoryRepo;
 import dk.rbc.petstore.service.CategoryService;
 
 /**
@@ -16,17 +16,32 @@ import dk.rbc.petstore.service.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    // TODO: squeeze the DAO completely, move the code from the DAO to here
-    /** Access to the data layer for categories */
+    /** The categories repo */
     @Autowired
-    private CategoryDao dao;
-    
+    private CategoryRepo repo;
+
+    /** {@inheritDoc} */
+    @Override
+    @Transactional
+    public Category createCategoryWithName(String name) {
+        Category category = new Category(name);
+        repo.save(category);
+        return category;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    @Transactional(readOnly = true)
+    public Category findCategoryByName(String name) {
+        return repo.findOneByName(name);
+    }
+
     
     /** {@inheritDoc} */
     @Override
     @Transactional(readOnly = true)
     public Iterable<Category> findAllCategories() {
-        return dao.findAllCategories();
+        return repo.findAll();
     }
 
 }

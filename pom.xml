@@ -4,6 +4,7 @@
     <groupId>dk.rbc.petstore</groupId>
     <artifactId>DK-RBC-PetStore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     
     <!-- ==== properties ==== -->
     <properties>
@@ -32,6 +33,11 @@
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
         
         <!-- templates using thymeleaf -->

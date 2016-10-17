@@ -1,4 +1,4 @@
-package dk.rbc.petstore.persistence;
+package dk.rbc.petstore.service;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
-import dk.rbc.petstore.persistence.dao.PetDao;
 import dk.rbc.petstore.persistence.repositories.CategoryRepo;
 import dk.rbc.petstore.persistence.repositories.PetRepo;
 
@@ -29,18 +28,18 @@ import dk.rbc.petstore.persistence.repositories.PetRepo;
 //@SpringBootTest(classes = {Application.class})
 //@SpringBootTest
 @DataJpaTest
-@ComponentScan(basePackages = "dk.rbc.petstore.persistence") // instanciate only the persistence layer
-public class PetDaoTests {
+@ComponentScan(basePackages = "dk.rbc.petstore.service") // instanciate only the service layer
+public class PetServiceTests {
     
     /** The logger */
-    private static final Logger LOGGER = LoggerFactory.getLogger(PetDaoTests.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PetServiceTests.class);
             
             
-    /** The pet dao we are testing */
+    /** The pet service we are testing */
     @Autowired
-    private PetDao petDao;
+    private PetService petService;
     
-    /** The pet repo, which we assume works and will be used to validate the dao behaviour */
+    /** The pet repo, which we assume works and will be used to validate the service behaviour */
     @Autowired
     private PetRepo petRepo;
     
@@ -102,7 +101,7 @@ public class PetDaoTests {
         String name = "Gunther";
         Pet gunther = new Pet(name, testCategorySaved);
         
-        Pet guntherSaved = petDao.createPet(gunther);
+        Pet guntherSaved = petService.createPet(gunther);
         Assert.assertNotNull(guntherSaved);
         Assert.assertNotNull(guntherSaved.getId());
         Assert.assertEquals(gunther.getName(), guntherSaved.getName());
@@ -116,8 +115,8 @@ public class PetDaoTests {
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
     public void testCreateManyPets() {
-        Pet pet1 = petDao.createPet(new Pet("pet1", testCategorySaved));
-        Pet pet2 = petDao.createPet(new Pet("pet2", testCategorySaved));
+        Pet pet1 = petService.createPet(new Pet("pet1", testCategorySaved));
+        Pet pet2 = petService.createPet(new Pet("pet2", testCategorySaved));
         
         Assert.assertNotNull(pet1);
         Assert.assertNotNull(pet2);
@@ -132,7 +131,7 @@ public class PetDaoTests {
         String name = "Gunther";
         String category = testCategorySaved.getName();
         
-        Pet guntherSaved = petDao.createPet(name, category);
+        Pet guntherSaved = petService.createPet(name, category);
         Assert.assertNotNull(guntherSaved);
         Assert.assertNotNull(guntherSaved.getId());
         Assert.assertEquals(name, guntherSaved.getName());
@@ -147,13 +146,13 @@ public class PetDaoTests {
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
     public void testFindPetById() {
         // existing pet
-        Pet found = petDao.findPetById(testPetSaved.getId());
+        Pet found = petService.findPetById(testPetSaved.getId());
         
         Assert.assertNotNull(found);
         Assert.assertEquals(testPetSaved.getId(), found.getId());
         
         // non existing pet
-        Pet nope = petDao.findPetById(ID_NOT_IN_DB);
+        Pet nope = petService.findPetById(ID_NOT_IN_DB);
         Assert.assertNull(nope);
         
         LOGGER.info("test ok");
@@ -166,11 +165,11 @@ public class PetDaoTests {
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
     public void testDeletePetById() {
         // non existing pet
-        boolean deleted = petDao.deletePetById(ID_NOT_IN_DB);
+        boolean deleted = petService.deletePetById(ID_NOT_IN_DB);
         Assert.assertFalse(deleted);
         
         // existing pet
-        deleted = petDao.deletePetById(testPetSaved.getId());
+        deleted = petService.deletePetById(testPetSaved.getId());
         Assert.assertTrue(deleted);
         
         // confirm it was deleted using the petRepo
@@ -179,6 +178,8 @@ public class PetDaoTests {
         
         LOGGER.info("test ok");
     }
+    
+    //TODO: list pets etc...
 }
 
 

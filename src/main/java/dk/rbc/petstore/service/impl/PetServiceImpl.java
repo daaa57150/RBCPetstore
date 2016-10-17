@@ -1,11 +1,20 @@
 package dk.rbc.petstore.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
-import dk.rbc.petstore.persistence.dao.PetDao;
+import dk.rbc.petstore.domain.enums.Status;
+import dk.rbc.petstore.persistence.PersistenceException;
+import dk.rbc.petstore.persistence.repositories.PetRepo;
+import dk.rbc.petstore.service.CategoryService;
 import dk.rbc.petstore.service.PetService;
 
 /**
@@ -16,44 +25,81 @@ import dk.rbc.petstore.service.PetService;
 @Service
 public class PetServiceImpl implements PetService {
 
-    // TODO: squeeze the DAO completely, move the code from the DAO to here
-    /** Access to the data layer for pets */
+    /** The logger */
+    private static final Logger LOGGER = LoggerFactory.getLogger(PetServiceImpl.class);
+    
+    /** The pet repository */
     @Autowired
-    private PetDao dao;
+    private PetRepo repo;
+    
+    /** Category Service */
+    @Autowired
+    private CategoryService categoryService;
     
     /** {@inheritDoc} */
     @Override
     @Transactional
     public Pet createPet(Pet pet) {
-        return dao.createPet(pet);
+        
+        // we clone the given pet because if the pet is already managed by JPA (has an id),
+        // repo.save() would update it, and that's not what we want, we want to create one from 
+        // the parameter which is essentially a model
+        // TODO: confirm those claims
+        try {
+            Pet newPet = (Pet)BeanUtils.cloneBean(pet);
+            newPet.setId(null);
+            
+            return repo.save(newPet);
+            
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            LOGGER.error("Cannot clone pet", e);
+            throw new PersistenceException("Cannot clone pet", e);
+        }
+        
     }
 
     /** {@inheritDoc} */
     @Override
     @Transactional
     public Pet createPet(String name, String category) {
-        return dao.createPet(name, category);
+        Pet pet = new Pet();
+        Category categoryObj = categoryService.findCategoryByName(category);
+        if(categoryObj == null) {
+            throw new PersistenceException("The category " + category + " does not exist");
+        }
+        
+        pet.setName(name);
+        pet.setCategory(categoryObj);
+        pet.setStatus(Status.AVAILABLE);
+        
+        return repo.save(pet);
     }
 
     /** {@inheritDoc} */
     @Override
     @Transactional(readOnly = true)
     public Pet findPetById(Long id) {
-        return dao.findPetById(id);
+        return repo.findOne(id);
     }
 
     /** {@inheritDoc} */
     @Override
     @Transactional
     public boolean deletePetById(Long id) {
-        return dao.deletePetById(id);
+        boolean exists = repo.exists(id);
+        if(!exists) {
+            return false;
+        }
+        
+        repo.delete(id);
+        return true;
     }
 
     /** {@inheritDoc} */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Iterable<Pet> findAllPets() {
-        return dao.findAllPets();
+        return repo.findAll();
     }
 
 }

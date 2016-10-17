@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
 import dk.rbc.petstore.domain.enums.Status;
-import dk.rbc.petstore.persistence.dao.CategoryDao;
-import dk.rbc.petstore.persistence.dao.PetDao;
+import dk.rbc.petstore.service.CategoryService;
 import dk.rbc.petstore.service.InitializerService;
+import dk.rbc.petstore.service.PetService;
 
 /**
  * Creates the needed data for the demo
@@ -27,13 +27,13 @@ public class InitializerServiceImpl implements InitializerService {
     /** The logger */
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializerServiceImpl.class);
             
-    /** Category DAO */
+    /** Category Service */
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryService categoryService;
     
-    /** Pet DAO */
+    /** Pet Service */
     @Autowired
-    private PetDao petDao;
+    private PetService petService;
     
     /** Initial categories to inject, read from the file initial-categories.txt */
     @Value("#{T(org.apache.commons.io.FileUtils).readFileToString(" +
@@ -58,7 +58,7 @@ public class InitializerServiceImpl implements InitializerService {
         for(String category: initialCategories.split("\\W+")) {
             category = category.trim();
             if(!StringUtils.isEmpty(category) && !category.startsWith("#")) {
-                categoryDao.createCategoryWithName(category);
+                categoryService.createCategoryWithName(category);
             }
         }
     }
@@ -75,7 +75,7 @@ public class InitializerServiceImpl implements InitializerService {
             if(!StringUtils.isEmpty(line) && !line.startsWith("#")) {
                 String[] parts = line.split("\\W+");
                 if(parts.length == 3) {
-                    Category category = categoryDao.findCategoryByName(parts[1]);
+                    Category category = categoryService.findCategoryByName(parts[1]);
                     if(category == null) {
                         LOGGER.error("Cannot create a pet with category " + parts[1] + " because it doesn't exist");
                     }
@@ -83,7 +83,7 @@ public class InitializerServiceImpl implements InitializerService {
                         Status status = Status.valueOf(parts[2].toUpperCase());
                         Pet pet = new Pet(parts[0], category);
                         pet.setStatus(status);
-                        petDao.createPet(pet);
+                        petService.createPet(pet);
                     }
                 }
                 else {

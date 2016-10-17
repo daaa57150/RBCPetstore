@@ -101,6 +101,6 @@ angular.element(document).ready(
     		// manually bootstrapping the app (do not use the ng-app directive! )
             angular.bootstrap(document.body, [window.GLOBAL.appName]);
             
-        }); // end config promise
+        }); // end status promise
 	}
 );
