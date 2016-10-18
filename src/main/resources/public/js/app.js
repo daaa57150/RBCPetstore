@@ -10,6 +10,11 @@ var app = angular.module(window.GLOBAL.appName, ['ngRoute', 'ngAnimate', 'ui.boo
 angular.element(document).ready(
 	function() {
 		
+		// some debug
+		console.log("GLOBAL config:");
+		console.log(window.GLOBAL);
+		
+		
 		var initInjector = angular.injector(['ng']);
         var $http = initInjector.get('$http');
         var $window = initInjector.get('$window');

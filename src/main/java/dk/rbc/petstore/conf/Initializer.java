@@ -1,4 +1,4 @@
-package dk.rbc.petstore;
+package dk.rbc.petstore.conf;
 
 import javax.annotation.PostConstruct;
 

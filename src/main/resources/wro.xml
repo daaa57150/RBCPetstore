@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <groups xmlns="http://www.isdc.ro/wro">
 
-    <group name="other">
-<!--         <css>classpath:public/css/first.css</css> -->
-<!--         <css>classpath:public/css/second.css</css> -->
+    <!-- JS assets, reminified because otherwise we get errors caused by the .map files -->
+    <group name="js-assets">
+        <!-- minimize="true/false" -->
+        <js>webjar:jquery/1.11.1/jquery.js</js>
+        <js>webjar:bootstrap/3.3.7-1/js/bootstrap.js</js>
+        <js>webjar:lodash/4.15.0/lodash.js</js>
+        <js>webjar:toastr/2.1.2/toastr.js</js>
         
+        <js>webjar:angularjs/1.5.8/angular.js</js>
+        <js>webjar:angular-route/1.5.8/angular-route.js</js>
+        <js>webjar:angular-animate/1.5.8/angular-animate.js</js>
+        <js>webjar:angular-ui-bootstrap/1.3.3/ui-bootstrap.js</js>
+        <js>webjar:angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.js</js>
+    </group>
+
+
+
+    <!-- our generated CSS and JS -->
+    <group name="rbc-petstore">
+        
+        <!--  ==== CSS ==== -->
+        
+        <!-- imported assets -->
         <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css>
         <css>webjar:toastr/2.1.2/toastr.less</css>
-        <css>classpath:public/less/first.less</css>
+        
+        <!-- application -->
+        <css>classpath:public/less/app.less</css>
+        
+        
+        <!-- ==== JS ==== -->
+        
+        <!-- imported assets -->
+        <group-ref>js-assets</group-ref>
+        
+        <!-- application -->
+        <js>classpath:public/js/app.js</js>
+        <js>classpath:public/js/controllers/**.js</js>
+        <js>classpath:public/js/services/**.js</js>
+        
+        
     </group>
     
 </groups>
