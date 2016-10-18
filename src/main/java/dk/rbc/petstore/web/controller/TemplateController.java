@@ -51,10 +51,10 @@ public class TemplateController {
      * 
      * @return
      */
-    @RequestMapping("main")
+    @RequestMapping("petList")
     public String templateIndex() {
-        LOGGER.debug("Thymeleaf template main");
-        return "pets :: main";
+        LOGGER.debug("Thymeleaf template petList");
+        return "pets/petList :: main";
     }
     
 }

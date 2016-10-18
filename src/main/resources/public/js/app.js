@@ -51,6 +51,42 @@ angular.element(document).ready(
             	throw "Error getting statuses";
             }
 		);
+        
+        // menu constants
+        app.constant('MENU', function() {
+        	
+        	// TODO: use keys for labels 
+        	// items
+        	var petList = {
+        			id: 'PET_LIST',
+        			label: 'Pets',
+        			route:'/pets.html'
+        		},
+        		orderList = {
+        			id: 'ORDER_LIST',
+        			label: 'Orders',
+        			route:'/orders.html'
+        		},
+        		admin = {
+        			id: 'ADMIN',
+        			label: 'Admin',
+        			route:'/admin.html'
+        		};
+        	
+        	// this is the menu constant
+        	return {
+        		
+        		// the constants
+        		PET_LIST: petList, 
+        		ORDER_LIST: orderList, 
+        		ADMIN: admin,
+
+        		// returns the items in the wanted order 
+        		list: function() {
+        			return [PET_LIST, ORDER_LIST, ADMIN];
+        		}
+        	};
+        }());
                    
         statusPromise.then(function() {
         	app.config(function($logProvider, $httpProvider, $animateProvider, $parseProvider) {
@@ -66,18 +102,34 @@ angular.element(document).ready(
     		})
     		
     		// Route configuration
-    		.config(function($routeProvider, $locationProvider) {
+    		.config(function($routeProvider, $locationProvider, MENU) {
     			
     			//var templateLoading = '<div ng-include="templateUrl">Loading...</div>';
     			
     			/* Route config */
     			$routeProvider
     			.when('/', {
-    				redirectTo : '/main.html'
+    				redirectTo : MENU.PET_LIST.route
     			})
-    			.when('/main.html', {
-    				templateUrl : 'template/main.html',
-    				controller : 'MainCtrl'
+    			.when(MENU.PET_LIST.route, {
+    				templateUrl : 'template/petList.html',
+    				controller : 'PetListCtrl',
+    				menu: MENU.PET_LIST,
+    				resolve: {
+    					menuItem: function(){
+    						return $q.when(MENU.PET_LIST);
+    					}
+    				}
+    			})
+    			.when(MENU.ORDER_LIST.route, {
+    				templateUrl : 'template/orderList.html',
+    				controller : 'OrderListCtrl',
+    				menu: MENU.ORDER_LIST
+    			})
+    			.when(MENU.ADMIN.route, {
+    				templateUrl : 'template/petList.html',
+    				controller : 'AdminCtrl',
+    				menu: MENU.ADMIN
     			})
     			
     			// Default
