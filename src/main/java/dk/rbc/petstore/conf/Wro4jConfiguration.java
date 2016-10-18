@@ -25,7 +25,12 @@ import ro.isdc.wro.http.ConfigurableWroFilter;
 public class Wro4jConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(Wro4jConfiguration.class);
     
-
+    
+    /**
+     * Reads the wro.properties file to configure the wro
+     * 
+     * @return
+     */
     private Properties readProperties() {
         final Properties properties = new Properties();
         try (final InputStream stream = this.getClass().getResourceAsStream("/wro.properties")) { //TODO: externalize the resource?
@@ -38,6 +43,12 @@ public class Wro4jConfiguration {
         return properties;
     }
     
+    /**
+     * wro filter registration
+     * 
+     * @param env the Spring Environment
+     * @return the filter registration
+     */
     @Bean
     FilterRegistrationBean webResourceOptimizer(Environment env) {
         FilterRegistrationBean fr = new FilterRegistrationBean();
