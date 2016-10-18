@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+
+
+    <!-- sandbox for html mock up -->
+
+
     <meta charset="UTF-8"/>
+    
+    <!-- global variables used through the whole app -->
+    <script th:inline="javascript">
+        window.GLOBAL = {};
+        // The angular app name. It corresponds to the main module
+        window.GLOBAL.appName = 'RBCPetStore';
+        // GLOBAL.contextRoot : see http://www.thymeleaf.org/doc/html/Using-Thymeleaf.html#script-inlining-javascript-and-dart
+        window.GLOBAL.contextRoot = /*[[${#httpServletRequest.contextPath}]]*/'';
+        // The locale language
+        window.GLOBAL.localeLanguage = /*[[${#locale.language}]]*/'en';
+    </script>
+    
+    
+    
+    <link href="/wro/rbc-petstore.css" rel="stylesheet" />
+    <script src="/wro/rbc-petstore.js" type="text/javascript"></script>
+    
+    <title>RBC - Pet Store - Mock-up</title>
+    
 </head>
 <body>
 
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" th:fragment="menu" x-ng-controller="MenuCtrl">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -23,8 +46,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li x-ng-repeat="menuItem in menuItems" x-ng-class="menuItem.active ? 'active' : ''">
-                        <a href="#{{menuItem.route}}">{{menuItem.label}}</a>
+                    <li>
+                        <a href="#" class="active">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -32,26 +61,5 @@
         </div>
         <!-- /.container -->
     </nav>
-
-
-
-
-
-    <nav class="navbar navbar-default" th:fragment="menu-old" x-ng-controller="MenuCtrl">
-        <div class="container-fluid">
-<!--             <div class="navbar-header"> -->
-<!--                 <a class="navbar-brand" href="#">WebSiteName</a> -->
-<!--             </div> -->
-            <ul class="nav navbar-nav">
-                <li x-ng-repeat="menuItem in menuItems" x-ng-class="menuItem.active ? 'active' : ''">
-                    <a href="#{{menuItem.route}}">{{menuItem.label}}</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
 </body>
 </html>
-
-
-

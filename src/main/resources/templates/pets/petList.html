@@ -5,9 +5,69 @@
     <title>Template for the pets page</title>
 </head>
 <body>
+
     <!-- only this fragment is actually used -->
-    <div th:fragment="main">
-        pets are here
+    <div class="row" th:fragment="main">
+    
+        <div class="col-md-12">
+            <h1>Pet list</h1>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tools here ?
+                </div>
+
+                    <!-- Loading when no pets loaded -->
+                    <div x-ng-if="!pets">
+                        Loading pets, please wait
+                    </div>
+                    
+                    <!-- Show the pets once we loaded them -->
+                    <div class="table-responsive" x-ng-if="pets">
+                        <table class="table table-bordered table-striped table-pets">
+                            <thead>
+                                <tr>
+                                    <th class="col-category">
+                                        <a x-ng-click="sortType = 'category'; sortReverse = !sortReverse">Category</a>
+                                        <span x-ng-show="sortType == 'category' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                        <span x-ng-show="sortType == 'category' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                                    </th>
+                                    <th class="col-id">
+                                        <a x-ng-click="sortType = 'id'; sortReverse = !sortReverse">Id</a>
+                                        <span x-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                        <span x-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                                    </th>
+                                    <th class="col-name">
+                                        <a x-ng-click="sortType = 'name'; sortReverse = !sortReverse">Name</a> 
+                                        <span x-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                        <span x-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                                    </th>
+                                    <th class="col-status">
+                                        <a x-ng-click="sortType = 'status'; sortReverse = !sortReverse">Status</a> 
+                                        <span x-ng-show="sortType == 'status' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                        <span x-ng-show="sortType == 'status' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                                    </th>
+                                    <th>
+                                        &nbsp; <!-- delete -->
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr x-ng-repeat="pet in pets | orderBy:sortType:sortReverse">
+                                    <td><img x-ng-src="/img/{{pet.category}}.png" /></td>
+                                    <td>{{ pet.id }}</td>
+                                    <td>{{ pet.name }}</td>
+                                    <td>{{ pet.status }}</td>
+                                    <td>del!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>        
+                    
+            </div>
+            
+                        
+        </div>
     </div>
 </body>
 </html>

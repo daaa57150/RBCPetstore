@@ -60,12 +60,12 @@ angular.element(document).ready(
         	var petList = {
         			id: 'PET_LIST',
         			label: 'Pets',
-        			route:'/pets.html'
+        			route:'/pet/list.html'
         		},
         		orderList = {
         			id: 'ORDER_LIST',
         			label: 'Orders',
-        			route:'/orders.html'
+        			route:'/order/list.html'
         		},
         		admin = {
         			id: 'ADMIN',
@@ -83,7 +83,7 @@ angular.element(document).ready(
 
         		// returns the items in the wanted order 
         		list: function() {
-        			return [PET_LIST, ORDER_LIST, ADMIN];
+        			return [petList, orderList, admin];
         		}
         	};
         }());
@@ -114,12 +114,7 @@ angular.element(document).ready(
     			.when(MENU.PET_LIST.route, {
     				templateUrl : 'template/petList.html',
     				controller : 'PetListCtrl',
-    				menu: MENU.PET_LIST,
-    				resolve: {
-    					menuItem: function(){
-    						return $q.when(MENU.PET_LIST);
-    					}
-    				}
+    				menu: MENU.PET_LIST
     			})
     			.when(MENU.ORDER_LIST.route, {
     				templateUrl : 'template/orderList.html',
@@ -127,7 +122,7 @@ angular.element(document).ready(
     				menu: MENU.ORDER_LIST
     			})
     			.when(MENU.ADMIN.route, {
-    				templateUrl : 'template/petList.html',
+    				templateUrl : 'template/admin.html',
     				controller : 'AdminCtrl',
     				menu: MENU.ADMIN
     			})
@@ -146,13 +141,29 @@ angular.element(document).ready(
     		}])
     		
     		// Application core init
-    		.run(function($rootScope, $window, $location, $routeParams, STATUS) {
+    		.run(function($rootScope, $window, $location, $routeParams, STATUS, MENU) {
     			
     			// Init global constants and services
         		$rootScope.STATUS = STATUS;
     			
     			// useful ?
     			$rootScope.$location = $location;
+    			
+    			// activate the menus
+    			$rootScope.$on('$routeChangeSuccess', function(event, current) {
+        			if(!current.redirectTo){
+        				
+        				if(current.menu) {
+        					// deactivate all
+        					_.forEach(MENU.list(), function(item) {
+        						item.active = false;
+        					});
+        					// activate the current
+        					current.menu.active=true;
+        				}
+        			}
+        		});
+    			
     		});
 
     		// manually bootstrapping the app (do not use the ng-app directive! )

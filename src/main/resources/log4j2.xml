@@ -4,6 +4,13 @@
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}:%-4L - %msg%n" />
+            
+            <!-- does not work -->
+<!--             <filter class="org.apache.log4j.filter.ExpressionFilter"> -->
+<!--                 <param name="expression" value="EXCEPTION ~= org.apache.catalina.connector.ClientAbortException" /> -->
+<!--                 <param name="acceptOnMatch" value="false"/> -->
+<!--             </filter> -->
+                
         </Console>
     </Appenders>
     
@@ -17,6 +24,9 @@
         
         <!-- Shows hibernate's SQL -->
         <Logger name="org.hibernate.SQL" level="debug" />
+        
+        <!-- Removes the stupid broken pipe error TODO: do it in another way, this hides potential errors -->
+        <Logger name="ro.isdc.wro.http.WroFilter" level="fatal" />
     
         <Root level="error">
             <AppenderRef ref="Console" />

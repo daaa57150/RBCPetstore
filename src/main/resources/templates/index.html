@@ -58,16 +58,16 @@
 <body class="rbc-pet-store">
 
     <!--  header -->
-    <div class="page-header">
-        <img src="img/logo_48.png" />
-        Welcome to the pet store!
-    </div>
+<!--     <div class="page-header"> -->
+<!--         <img src="img/logo_48.png" /> -->
+<!--         Welcome to the pet store! -->
+<!--     </div> -->
     
     <!-- menu -->
     <th:block th:replace="navigation :: menu"/>
     
     <!-- main content -->
-    <div class="container-fluid">
+    <div class="container-fluid page-content">
         <section x-ng-view=""></section>
     </div>
 </body>

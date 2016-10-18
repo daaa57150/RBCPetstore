@@ -47,14 +47,47 @@ public class TemplateController {
     
     
     /**
-     * Main page template
+     * Pet list page template
      * 
      * @return
      */
     @RequestMapping("petList")
-    public String templateIndex() {
+    public String templatePetList() {
         LOGGER.debug("Thymeleaf template petList");
         return "pets/petList :: main";
+    }
+    
+    /**
+     * Main page template
+     * 
+     * @return
+     */
+    @RequestMapping("orderList")
+    public String templateOrderList() {
+        LOGGER.debug("Thymeleaf template orderList");
+        return "orders/orderList :: main";
+    }
+    
+    /**
+     * Admin page template
+     * 
+     * @return
+     */
+    @RequestMapping("admin")
+    public String templateAdmin() {
+        LOGGER.debug("Thymeleaf template admin");
+        return "admin :: main";
+    }
+    
+    /**
+     * Mock up page
+     * 
+     * @return
+     */
+    @RequestMapping("mock-up")
+    public String mockUp() {
+        LOGGER.debug("Thymeleaf mock up");
+        return "mock-up";
     }
     
 }
