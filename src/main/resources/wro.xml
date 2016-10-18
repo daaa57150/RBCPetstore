@@ -16,7 +16,9 @@
         <js>webjar:angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.js</js>
     </group>
 
-
+    <group name="css-assets">
+        <css minimize="false">webjar:font-awesome/4.1.0/css/font-awesome.min.css</css>
+    </group>
 
     <!-- our generated CSS and JS -->
     <group name="rbc-petstore">
@@ -24,8 +26,9 @@
         <!--  ==== CSS ==== -->
         
         <!-- imported assets -->
-        <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css>
+        <group-ref>css-assets</group-ref>
         <css>webjar:toastr/2.1.2/toastr.less</css>
+        <css>webjar:bootstrap/3.3.7-1/less/bootstrap.less</css>
         
         <!-- application -->
         <css>classpath:public/less/app.less</css>

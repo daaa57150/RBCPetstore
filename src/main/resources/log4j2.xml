@@ -26,7 +26,7 @@
         <Logger name="org.hibernate.SQL" level="debug" />
         
         <!-- Removes the stupid broken pipe error TODO: do it in another way, this hides potential errors -->
-        <Logger name="ro.isdc.wro.http.WroFilter" level="fatal" />
+<!--         <Logger name="ro.isdc.wro.http.WroFilter" level="fatal" /> -->
     
         <Root level="error">
             <AppenderRef ref="Console" />
