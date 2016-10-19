@@ -17,7 +17,7 @@
     </group>
 
     <group name="css-assets">
-        <css minimize="false">webjar:font-awesome/4.1.0/css/font-awesome.min.css</css>
+        <css minimize="false">webjar:font-awesome/4.5.0/css/font-awesome.min.css</css>
     </group>
 
     <!-- our generated CSS and JS -->

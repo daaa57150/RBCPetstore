@@ -40,7 +40,7 @@
                             
                         <!-- add -->
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-primary btn-tool"><i class="fa fa-plus"></i></button>
+                            <button type="button" class="btn btn-primary btn-tool"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
@@ -49,35 +49,28 @@
                     <table class="table table-bordered table-striped table-pets">
                         <thead>
                             <tr>
-                                <th class="col-category">
-                                    <a x-ng-click="sortType = 'category'; sortReverse = !sortReverse">
-                                        Category
-                                        <span x-ng-show="sortType == 'category' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                                        <span x-ng-show="sortType == 'category' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
-                                    </a>
+                                <th class="col-category col-sortable" x-ng-click="sortType = 'category'; sortReverse = !sortReverse">
+                                    Category
+                                    <span x-ng-show="sortType == 'category' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                    <span x-ng-show="sortType == 'category' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-id">
-                                    <a x-ng-click="sortType = 'id'; sortReverse = !sortReverse">
-                                        Id
-                                        <span x-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                                        <span x-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
-                                    </a>
+                                <th class="col-id col-sortable" x-ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                                    Id
+                                    <span x-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                    <span x-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-name">
-                                    <a x-ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                                        Name
-                                        <span x-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                                        <span x-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
-                                    </a>
+                                <th class="col-name col-sortable" x-ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Name
+                                    <span x-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                    <span x-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-status">
-                                    <a x-ng-click="sortType = 'status'; sortReverse = !sortReverse">Status 
-                                        <span x-ng-show="sortType == 'status' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                                        <span x-ng-show="sortType == 'status' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
-                                    </a>
+                                <th class="col-status col-sortable" x-ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                    Status 
+                                    <span x-ng-show="sortType == 'status' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                    <span x-ng-show="sortType == 'status' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th>
-                                    &nbsp; <!-- delete -->
+                                <th class="col-tools">
+                                    &nbsp; <!-- tools -->
                                 </th>
                             </tr>
                         </thead>
@@ -87,7 +80,12 @@
                                 <td>{{ pet.id }}</td>
                                 <td>{{ pet.name }}</td>
                                 <td>{{ pet.status }}</td>
-                                <td>del!</td>
+                                <td>
+                                    <span class="btn-group">
+                                        <a class="btn btn-primary"><i class="fa fa-info" aria-hidden="true"></i></a>
+                                        <a class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
