@@ -18,25 +18,26 @@
             </div>
             
             <!-- Show the pets once we loaded them -->
-            <div class="panel panel-default" x-ng-if="pets">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     
                     <!-- Toolbar -->
                     <div class="btn-toolbar" role="toolbar" aria-label="add...">
                         
                         <!-- filter -->
-                        <div class="btn-group">
+                        <div class="btn-group" x-ng-show="pets.length > 0">
                             <button type="button" class="btn btn-primary">All pets</button>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     Find...
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="">By id</a></li>
-                                        <li><a href="">By status</a></li>
-                                    </ul>
-                                </div>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="">By id</a></li>
+                                    <li><a href="">By status</a></li>
+                                </ul>
                             </div>
+                        </div>
                             
                         <!-- add -->
                         <div class="btn-group pull-right">
@@ -44,8 +45,14 @@
                         </div>
                     </div>
                 </div>
-                    
-                <div class="table-responsive">
+                
+                <!--/* if no pet */-->
+                <div class="panel-body" x-ng-show="!pets || pets.length == 0">
+                    There are no pets!
+                </div>
+                
+                <!--/* if at least 1 pet */-->
+                <div class="table-responsive" x-ng-show="pets.length > 0">
                     <table class="table table-bordered table-striped table-pets">
                         <thead>
                             <tr>
@@ -75,26 +82,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr x-ng-repeat="pet in pets | orderBy:sortType:sortReverse">
+                            <tr x-ng-repeat="pet in pets | orderBy:sortType:sortReverse" x-ng-class="pet.busy ? 'busy' : ''">
                                 <td>{{ pet.category.name }}</td>
                                 <td>{{ pet.id }}</td>
                                 <td>{{ pet.name }}</td>
                                 <td>{{ pet.status }}</td>
                                 <td>
-                                    <span class="btn-group">
+                                    <span x-ng-show="pet.busy" class="busy"><i class="fa fa-cog fa-spin fa-2x" aria-hidden="true"></i></span>
+                                    <span class="btn-group" x-ng-show="!pet.busy">
                                         <a class="btn btn-primary"><i class="fa fa-info" aria-hidden="true"></i></a>
-                                        <a class="btn btn-primary"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        <a class="btn btn-danger" x-ng-click="confirmDeletion(pet, $event)"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>        
+                </div> <!--/* end table */-->
                     
-            </div>
+            </div> <!--/* end pet panel */-->
             
                         
-        </div>
-    </div>
+        </div><!--/* end col */-->
+        
+        
+    <!--/* TODO: try to use the template for the dialog */-->
+    <script type="text/ng-template" id="deleteConfirmation">
+        <span>
+            Name: {{pet.name}}    
+        </span>
+    </script>
+    
+        
+    </div> <!--/* end row & fragemnt */-->
+    
+    
+    
+    
 </body>
 </html>

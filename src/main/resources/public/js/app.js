@@ -4,7 +4,7 @@
 /**
  * The application main module
  */
-var app = angular.module(window.GLOBAL.appName, ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
+var app = angular.module(window.GLOBAL.appName, ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngMaterial', 'ngMessages', 'ngSanitize']);
 
 //Deferred Bootstrap initialization
 angular.element(document).ready(
@@ -89,7 +89,7 @@ angular.element(document).ready(
         }());
                    
         statusPromise.then(function() {
-        	app.config(function($logProvider, $httpProvider, $animateProvider, $parseProvider) {
+        	app.config(function($logProvider, $httpProvider, $animateProvider, $parseProvider, $mdThemingProvider) {
         		
     			// Debug mode ?
     			$logProvider.debugEnabled(false);
@@ -99,6 +99,13 @@ angular.element(document).ready(
     		
     			// Each request will contain the following header to identify XHR on the server side
     			$httpProvider.defaults.headers.common['X-Requested-With'] = 'XmlHttpRequest';
+    			
+    			// angular material theme
+    			$mdThemingProvider
+    				.theme('default')
+    				.primaryPalette('blue')
+    				.dark();
+    			
     		})
     		
     		// Route configuration
