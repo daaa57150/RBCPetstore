@@ -1,3 +1,65 @@
+# ---- #
+# DOGS #
+# ---- #
 Doge, dog, available
-Nyan, cat, pending
-Solid, snake, sold
+Wrangler, dog, available
+Sasquatch, dog, available
+// Cristyl, dog, available
+// Fancy, dog, available
+
+Pupa, dog, pending
+Happy, dog, pending
+Carraway, dog, pending
+// Jethro, dog, pending
+// Ritzy, dog, pending
+
+Crybaby, dog, sold
+Leo, dog, sold
+Orion, dog, sold
+// Gene, dog, sold
+// Kryptonite, dog, sold
+
+# ---- #
+# CATS #
+# ---- #
+Nyan, cat, available
+Pallas, cat, available
+Fairfax, cat, available
+// Dallin, cat, available
+// Hardcore, cat, available
+
+Hellfang, cat, pending
+HellHound, cat, pending
+Slaverjaw, cat, pending
+// Matata, cat, pending
+// Chalcedony, cat, pending
+
+Fage, cat, sold
+Jolteon, cat, sold
+Megan, cat, sold
+// Ragnaros, cat, sold
+// Gothmaug, cat, sold
+
+
+# ------ #
+# SNAKES #
+# ------ #
+Sphalerite, snake, available
+Solid, snake, available
+Gage, snake, available
+// Ajay, snake, available
+// Aiolos, snake, available
+
+Gothmaug, snake, pending
+Oblivion, snake, pending
+FireDog, snake, pending
+// Adan, snake, pending
+// Bloodymuzzle, snake, pending
+
+Bloodstone, snake, sold
+Sardonyx, snake, sold
+DoubleTrouble, snake, sold
+// Zorphax, snake, sold
+// Kilimanjaro, snake, sold
+
+

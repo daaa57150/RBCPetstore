@@ -19,6 +19,8 @@
         <!-- Our app root -->
         <Logger name="dk.rbc.petstore" level="debug" />
         
+        <!-- InitializerServiceImpl to see the imported files comments -->
+        
         <!-- If set to debug, prints the content of the Spring context -->
         <Logger name="dk.rbc.petstore.Application" level="info" />
         

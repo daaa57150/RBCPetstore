@@ -104,7 +104,8 @@ angular.element(document).ready(
     			$mdThemingProvider
     				.theme('default')
     				.primaryPalette('blue')
-    				.dark();
+    				.dark()
+    			;
     			
     		})
     		

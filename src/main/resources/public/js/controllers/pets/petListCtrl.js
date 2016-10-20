@@ -45,7 +45,7 @@ angular.module(window.GLOBAL.appName)
 		petSrv.deletePet(pet, 
 			function onDeleteSuccess() {
 				_.remove($scope.pets, pet);
-				toastr.success("Pet " + pet.id + ' named ' + pet.name + ' deleted.');
+				toastr.success(pet.name + ' (id=' + pet.id + ')' + ' deleted.');
 			}, function onDeleteError(message, exception) {
 				handleError(message, exception);
 				pet.busy = false;

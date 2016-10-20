@@ -14,11 +14,12 @@
             
             <!-- Loading when no pets loaded -->
             <div x-ng-if="!pets">
+                <span><i class="fa fa-spinner fa-spin fa-3x"></i></span>
                 Loading pets, please wait
             </div>
             
             <!-- Show the pets once we loaded them -->
-            <div class="panel panel-default">
+            <div class="panel panel-default" x-ng-if="pets">
                 <div class="panel-heading">
                     
                     <!-- Toolbar -->
@@ -47,7 +48,7 @@
                 </div>
                 
                 <!--/* if no pet */-->
-                <div class="panel-body" x-ng-show="!pets || pets.length == 0">
+                <div class="panel-body" x-ng-show="pets.length == 0">
                     There are no pets!
                 </div>
                 

@@ -48,6 +48,14 @@ public class InitializerServiceImpl implements InitializerService {
     private String initialPets;
     
 
+    /**
+     * Returns if the line should be processed; ie it's not a comment and there is text in it
+     * @param line the line to check
+     * @return true if the line should be processed
+     */
+    private boolean shouldProcessLine(String line) {
+        return !StringUtils.isEmpty(line) && !line.startsWith("#") && !line.startsWith("//");
+    }
 
     /**
      * Creates the initial (and only?) categories from the file initial-categories.txt
@@ -55,10 +63,11 @@ public class InitializerServiceImpl implements InitializerService {
     @Override
     @Transactional
     public void createCategories() {
-        for(String category: initialCategories.split("\\W+")) {
-            category = category.trim();
-            if(!StringUtils.isEmpty(category) && !category.startsWith("#")) {
-                categoryService.createCategoryWithName(category);
+        LOGGER.debug("Creating catégories!");
+        for(String line: initialCategories.split("\\W+")) {
+            line = line.trim();
+            if(shouldProcessLine(line)) {
+                categoryService.createCategoryWithName(line);
             }
         }
     }
@@ -70,9 +79,10 @@ public class InitializerServiceImpl implements InitializerService {
     @Override
     @Transactional
     public void createPets() {
+        LOGGER.debug("Creating initial pets!");
         for(String line: initialPets.split("[\\r\\n]")) {
             line = line.trim();
-            if(!StringUtils.isEmpty(line) && !line.startsWith("#")) {
+            if(shouldProcessLine(line)) {
                 String[] parts = line.split("\\W+");
                 if(parts.length == 3) {
                     Category category = categoryService.findCategoryByName(parts[1]);
@@ -88,6 +98,13 @@ public class InitializerServiceImpl implements InitializerService {
                 }
                 else {
                     LOGGER.error("Cannot create a pet with this line: " + line);
+                }
+            }
+            
+            // log the commented line
+            if(LOGGER.isDebugEnabled()) {
+                if(line.startsWith("#")) {
+                    LOGGER.debug(line);
                 }
             }
         }
