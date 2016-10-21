@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li x-ng-repeat="menuItem in menuItems" x-ng-class="menuItem.active ? 'active' : ''">
-                        <a href="#{{menuItem.route}}">{{menuItem.label}}</a>
+                        <a href="#{{menuItem.mainRoute}}">{{menuItem.label}}</a>
                     </li>
                 </ul>
             </div>

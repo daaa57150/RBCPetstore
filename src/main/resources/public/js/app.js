@@ -57,33 +57,33 @@ angular.element(document).ready(
         	
         	// TODO: use keys for labels 
         	// items
-        	var petList = {
-        			id: 'PET_LIST',
+        	var pets = {
+        			id: 'PETS',
         			label: 'Pets',
-        			route:'/pet/list.html'
+        			mainRoute: '/pet/list.html'
         		},
-        		orderList = {
-        			id: 'ORDER_LIST',
+        		orders = {
+        			id: 'ORDERS',
         			label: 'Orders',
-        			route:'/order/list.html'
+        			mainRoute: '/order/list.html'
         		},
         		admin = {
         			id: 'ADMIN',
         			label: 'Admin',
-        			route:'/admin.html'
+        			mainRoute: '/admin.html'
         		};
         	
         	// this is the menu constant
         	return {
         		
         		// the constants
-        		PET_LIST: petList, 
-        		ORDER_LIST: orderList, 
+        		PETS: pets, 
+        		ORDERS: orders, 
         		ADMIN: admin,
 
         		// returns the items in the wanted order 
         		list: function() {
-        			return [petList, orderList, admin];
+        			return [pets, orders, admin];
         		}
         	};
         }());
@@ -117,19 +117,24 @@ angular.element(document).ready(
     			/* Route config */
     			$routeProvider
     			.when('/', {
-    				redirectTo : MENU.PET_LIST.route
+    				redirectTo : MENU.PETS.mainRoute
     			})
-    			.when(MENU.PET_LIST.route, {
+    			.when('/pet/list.html', {
     				templateUrl : 'template/petList.html',
     				controller : 'PetListCtrl',
-    				menu: MENU.PET_LIST
+    				menu: MENU.PETS
     			})
-    			.when(MENU.ORDER_LIST.route, {
+    			.when('/pet/detail/:id.html', {
+    				templateUrl : 'template/petDetail.html',
+    				controller : 'PetDetailCtrl',
+    				menu: MENU.PETS
+    			})
+    			.when('/order/list.html', {
     				templateUrl : 'template/orderList.html',
     				controller : 'OrderListCtrl',
-    				menu: MENU.ORDER_LIST
+    				menu: MENU.ORDERS
     			})
-    			.when(MENU.ADMIN.route, {
+    			.when('/admin.html', {
     				templateUrl : 'template/admin.html',
     				controller : 'AdminCtrl',
     				menu: MENU.ADMIN
@@ -142,11 +147,11 @@ angular.element(document).ready(
     		})
     		
     		// enables trusting sources, see http://stackoverflow.com/a/24519069
-    		.filter('trusted', ['$sce', function ($sce) {
-    			return function(url) {
-    				return $sce.trustAsResourceUrl(url);
-    			};
-    		}])
+//    		.filter('trusted', ['$sce', function ($sce) {
+//    			return function(url) {
+//    				return $sce.trustAsResourceUrl(url);
+//    			};
+//    		}])
     		
     		// Application core init
     		.run(function($rootScope, $window, $location, $routeParams, STATUS, MENU) {

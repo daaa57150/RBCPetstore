@@ -58,6 +58,17 @@ public class TemplateController {
     }
     
     /**
+     * Pet detail page template
+     * 
+     * @return
+     */
+    @RequestMapping("petDetail")
+    public String templatePetDetail() {
+        LOGGER.debug("Thymeleaf template petList");
+        return "pets/petDetail :: main";
+    }
+    
+    /**
      * Main page template
      * 
      * @return

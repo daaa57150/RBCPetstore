@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Template for the pet detail page</title>
+</head>
+<body>
+
+    <!-- only this fragment is actually used -->
+    <div class="row" th:fragment="main">
+    
+        <div class="col-md-12">
+            <h1>Detail...</h1>
+            
+            <!-- Loading when no pets loaded -->
+            <div x-ng-if="pet">
+                <span><i class="fa fa-spinner fa-spin fa-3x"></i></span>
+                Loading pet {{id}}, please wait
+            </div>
+            
+        </div>
+    
+        
+    </div> <!--/* end row & fragemnt */-->
+    
+</body>
+</html>

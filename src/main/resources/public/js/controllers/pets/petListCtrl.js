@@ -5,10 +5,10 @@ angular.module(window.GLOBAL.appName)
 /**
  * Pet list controller
  */
-.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, $templateCache, $compile, petSrv) {
+.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache, $compile,*/ $location, petSrv) {
 	console.log("inside pet list controller");
 	
-
+	// scope vars
 	$scope.pets = undefined;
 	
 	// Sort & Pagination
@@ -18,14 +18,14 @@ angular.module(window.GLOBAL.appName)
 	$scope.currentPage 	= 1;
 	$scope.numPerPage 	= 10; 
 	
-	$scope.paginate = function(pet) {  
+	$scope.paginate = function(pet, $index) {  
 		if(!$scope.pets) return false;
 		
-		var begin, end, index;  
+		var begin, end;  
         begin = ($scope.currentPage - 1) * $scope.numPerPage;  
         end = begin + $scope.numPerPage;  
-        index = $scope.pets.indexOf(pet);  
-        return (begin <= index && index < end);  
+        //index = $scope.pets.indexOf(pet);  
+        return (begin <= $index && $index < end);  
     };  
     $scope.sortBy = function(property) {
     	if(!$scope.pets) return;
@@ -88,7 +88,23 @@ angular.module(window.GLOBAL.appName)
 			});
 	}
 	
-	///// Functionalities /////
+	
+	
+	
+	
+	
+	///// UI Functionalities /////
+	/**
+	 * Navigates the user to the detail page for the chosen pet
+	 */
+	$scope.petDetail = function(pet) {
+		$location.path( "/pet/detail/" + pet.id + ".html");
+	};
+	
+	/**
+	 * Shows a confirmation dialog asking if the user really wants to delete the pet.
+	 * If he answers yes, the pet is deleted
+	 */
 	$scope.confirmDeletion = function(pet, ev) {
 		
 //		var deleteConfirmationTemplate = $templateCache.get("deleteConfirmation");
