@@ -5,7 +5,7 @@ angular.module(window.GLOBAL.appName)
 /**
  * Pet list controller
  */
-.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache, $compile,*/ $location, petSrv) {
+.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache, $compile,*/ $location, petSrv, utilSrv) {
 	console.log("inside pet list controller");
 	
 	// scope vars
@@ -46,30 +46,13 @@ angular.module(window.GLOBAL.appName)
     };
     
 	
-    
-    
-    
-	/**
-	 * Handles the errors
-	 * TODO: move this in a utility service
-	 */
-	var handleError = function(message, exception) {
-		var err = message ? message : (exception ? exception.message : '');
-		toastr.error(err);
-		if(exception) {
-			console.log(exception);
-		} else {
-			console.log(message);
-		}
-	};
-	
 	// load the pets
 	petSrv.listPets(
-		function onSuccess(pets) {
+		function onSuccessLoadPets(pets) {
 			$scope.pets = pets;
 		}, 
-		function onError(message, exception) {
-			toastr.error(message); //TODO: error service
+		function onErrorLoadPets(message, exception) {
+			utilSrv.handleError(message, exception);
 		});
 	
 	

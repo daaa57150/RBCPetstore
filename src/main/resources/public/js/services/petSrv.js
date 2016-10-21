@@ -10,30 +10,9 @@ angular.module(window.GLOBAL.appName)
  * @name petSrv
  * @description This service provides methods to manage pets.
  */
-.service('petSrv', function ($http) {
+.service('petSrv', function ($http, utilSrv) {
 	
-	var service = {},
-	
-		/**
-		 * Handles the http responses that return a dk.rbc.petstore.web.Response
-		 * TODO: move this in a utility service
-		 */
-		handleResponse = function(httpPromise, successCB, errorCB) {
-			httpPromise.success(function(response) {
-				if(response.success) {
-					successCB(response.content);
-				} 
-				else if(errorCB) {
-					errorCB(response.errorMessage, response.exception);
-				}
-			}).error(function(response) {
-				if(errorCB) {
-					errorCB(response ? response.statusText : undefined);
-				}
-			});
-		
-			return httpPromise; 
-		};
+	var service = {};
 	
 	/**
 	 * @object method
@@ -48,7 +27,7 @@ angular.module(window.GLOBAL.appName)
 	 * @returns {object} the http promise
 	 */
 	service.listPets = function(successCB, errorCB) {
-		return handleResponse(
+		return utilSrv.handleHttpResponse(
 			$http.get(GLOBAL.contextRoot + '/pet/list'),
 			successCB, errorCB
 		);
@@ -68,7 +47,7 @@ angular.module(window.GLOBAL.appName)
 	 * @returns {object} the http promise
 	 */
 	service.deletePet = function(pet, successCB, errorCB) {
-		return handleResponse(
+		return utilSrv.handleHttpResponse(
 			$http['delete'](GLOBAL.contextRoot + '/pet/' + pet.id),
 			successCB, errorCB
 		);
@@ -88,7 +67,7 @@ angular.module(window.GLOBAL.appName)
 	 * @returns {object} the http promise
 	 */
 	service.findPetById = function(petId, successCB, errorCB) {
-		return handleResponse(
+		return utilSrv.handleHttpResponse(
 			$http.get(GLOBAL.contextRoot + '/pet/' + petId),
 			successCB, errorCB
 		);
@@ -108,15 +87,11 @@ angular.module(window.GLOBAL.appName)
 	 * @returns {object} the http promise
 	 */
 	service.findPetByStatus = function(statuses, successCB, errorCB) {
-		return handleResponse(
+		return utilSrv.handleHttpResponse(
 			$http.get(GLOBAL.contextRoot + '/pet/findByStatus?status=' + _.join(statuses, ',')),
 			successCB, errorCB
 		);
 	}
-	
-	
-	
-	
 	
 
 	return service;

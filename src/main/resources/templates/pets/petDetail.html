@@ -10,16 +10,44 @@
     <div class="row" th:fragment="main">
     
         <div class="col-md-12">
-            <h1>Detail...</h1>
+            <h1 x-ng-if="!pet">Detail for pet {{id}}</h1>
+            <h1 x-ng-if="pet">Detail for {{pet.name}}</h1>
             
             <!-- Loading when no pets loaded -->
-            <div x-ng-if="pet">
+            <div x-ng-if="!pet">
                 <span><i class="fa fa-spinner fa-spin fa-3x"></i></span>
                 Loading pet {{id}}, please wait
             </div>
             
+            
+            
+            
+            
         </div>
-    
+        
+        
+        <!-- Show the details once we loaded the pet -->
+        <div class="col-md-4 col-sm-6" x-ng-if="pet">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Identity
+                </div>
+                <div class="panel-body">
+                    the body
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8 col-sm-6" x-ng-if="pet">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Photos
+                </div>
+                <div class="panel-body">
+                    the body
+                </div>
+            </div>
+        </div>
         
     </div> <!--/* end row & fragemnt */-->
     
