@@ -4,7 +4,7 @@
 /**
  * The application main module
  */
-var app = angular.module(window.GLOBAL.appName, ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngMaterial', 'ngMessages', 'ngSanitize']);
+var app = angular.module(window.GLOBAL.appName, ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ngMaterial', 'ngMessages', 'ngSanitize', 'ui.bootstrap']);
 
 //Deferred Bootstrap initialization
 angular.element(document).ready(
@@ -103,8 +103,8 @@ angular.element(document).ready(
     			// angular material theme
     			$mdThemingProvider
     				.theme('default')
-    				.primaryPalette('blue')
-    				.dark()
+    				//.primaryPalette('blue')
+    				//.dark()
     			;
     			
     		})

@@ -8,7 +8,7 @@ angular.module(window.GLOBAL.appName)
 .controller('AdminCtrl', function($scope, $location, $window, $http) {
 	console.log("inside admin controller");
 	
-	toastr.success("inside admin controller");
+	//toastr.success("inside admin controller");
 });
 
 

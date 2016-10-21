@@ -8,8 +8,7 @@ angular.module(window.GLOBAL.appName)
 .controller('OrderListCtrl', function($scope, $location, $window, $http) {
 	console.log("inside order list controller, yeah");
 	
-	
-	toastr.success("inside order list controller!");
+	//toastr.success("inside order list controller!");
 });
 
 

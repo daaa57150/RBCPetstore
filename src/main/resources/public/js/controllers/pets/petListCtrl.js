@@ -8,11 +8,47 @@ angular.module(window.GLOBAL.appName)
 .controller('PetListCtrl', function($scope, $location, $window, $mdDialog, $templateCache, $compile, petSrv) {
 	console.log("inside pet list controller");
 	
-	// Scope preparation
-	$scope.sortType     = 'id'; // set the default sort type
-	$scope.sortReverse  = false;  // set the default sort order
+
 	$scope.pets = undefined;
 	
+	// Sort & Pagination
+	// TODO: put all this in a directive
+	$scope.sortType     = 'id'; 	// set the default sort type
+	$scope.sortReverse  = false;  	// set the default sort order
+	$scope.currentPage 	= 1;
+	$scope.numPerPage 	= 10; 
+	
+	$scope.paginate = function(pet) {  
+		if(!$scope.pets) return false;
+		
+		var begin, end, index;  
+        begin = ($scope.currentPage - 1) * $scope.numPerPage;  
+        end = begin + $scope.numPerPage;  
+        index = $scope.pets.indexOf(pet);  
+        return (begin <= index && index < end);  
+    };  
+    $scope.sortBy = function(property) {
+    	if(!$scope.pets) return;
+    	
+    	if(property == $scope.sortType) {
+    		$scope.sortReverse = !$scope.sortReverse;
+    	} else {
+    		$scope.sortReverse  = false;
+    	}
+    	
+    	var sorted = _.sortBy($scope.pets, property);
+    	if($scope.sortReverse) {
+    		sorted.reverse();
+    	}
+    	$scope.pets.length = 0;
+    	Array.prototype.push.apply($scope.pets, sorted); //adds all items from sorted in pets
+    	$scope.sortType = property;
+    };
+    
+	
+    
+    
+    
 	/**
 	 * Handles the errors
 	 * TODO: move this in a utility service

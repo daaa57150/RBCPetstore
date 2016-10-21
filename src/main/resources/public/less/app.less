@@ -2,6 +2,10 @@ html {
     background-color: white;
 }
 
+// removes the blue outline on focus in chrome
+// !! this reduces usability !!
+*:focus {outline:none !important} 
+
 // HEADER //
 
 .page-header, .navbar {
@@ -68,7 +72,7 @@ th.col-sortable:hover {
         width: 48px;
     } 
     .col-name {
-        width: 120px;
+        width: 150px;
     } 
     .col-status {
         
@@ -76,5 +80,9 @@ th.col-sortable:hover {
     .col-tools {
         width: 90px;
     }
+}
+
+.pet-pagination {
+    margin-top: 0;
 }
 

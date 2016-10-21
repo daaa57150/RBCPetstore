@@ -168,6 +168,11 @@
 <!--             <artifactId>tether</artifactId> -->
 <!--             <version>1.3.7</version> -->
 <!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.webjars.bower</groupId> -->
+<!--             <artifactId>angular-table</artifactId> -->
+<!--             <version>1.0.0</version> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angular-sanitize</artifactId>

@@ -57,22 +57,22 @@
                     <table class="table table-bordered table-striped table-pets">
                         <thead>
                             <tr>
-                                <th class="col-category col-sortable" x-ng-click="sortType = 'category'; sortReverse = !sortReverse">
+                                <th class="col-category col-sortable" x-ng-click="sortBy('category.name')">
                                     Category
-                                    <span x-ng-show="sortType == 'category' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
-                                    <span x-ng-show="sortType == 'category' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
+                                    <span x-ng-show="sortType == 'category.name' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
+                                    <span x-ng-show="sortType == 'category.name' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-id col-sortable" x-ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                                <th class="col-id col-sortable" x-ng-click="sortBy('id')">
                                     Id
                                     <span x-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
                                     <span x-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-name col-sortable" x-ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                <th class="col-name col-sortable" x-ng-click="sortBy('name')">
                                     Name
                                     <span x-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
                                     <span x-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
                                 </th>
-                                <th class="col-status col-sortable" x-ng-click="sortType = 'status'; sortReverse = !sortReverse">
+                                <th class="col-status col-sortable" x-ng-click="sortBy('status')">
                                     Status 
                                     <span x-ng-show="sortType == 'status' &amp;&amp; !sortReverse" class="fa fa-caret-down"></span>
                                     <span x-ng-show="sortType == 'status' &amp;&amp; sortReverse" class="fa fa-caret-up"></span>
@@ -83,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr x-ng-repeat="pet in pets | orderBy:sortType:sortReverse" x-ng-class="pet.busy ? 'busy' : ''">
+                            <tr x-ng-repeat="pet in pets | orderBy:sortType:sortReverse | filter:paginate" x-ng-class="pet.busy ? 'busy' : ''"><!-- | filter:paginate -->
                                 <td>{{ pet.category.name }}</td>
                                 <td>{{ pet.id }}</td>
                                 <td>{{ pet.name }}</td>
@@ -104,6 +104,14 @@
             
                         
         </div><!--/* end col */-->
+        
+        <div class="col-md-12">
+            <uib-pagination total-items="pets.length" ng-model="currentPage"  
+                            max-size="5" boundary-links="true"  
+                            items-per-page="numPerPage" class="pagination-sm pet-pagination"
+                            x-ng-show="pets.length > numPerPage">  
+           </uib-pagination>
+       </div>
         
         
     <!--/* TODO: try to use the template for the dialog */-->
