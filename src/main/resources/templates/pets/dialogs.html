@@ -9,18 +9,50 @@
 
 <!-- find a pet by id -->
 <script type="text/ng-template" id="findById.tmpl.html" th:fragment="findById">
-    <md-dialog aria-label="Mango (Fruit)">
+    <md-dialog>
         <form ng-cloak="">
             <md-dialog-content class="md-dialog-content">
-                <h2 class="md-title">Find the pet with this id</h2>
-                <label for="petId">Pet id</label>: <input type="number" ng-model="petId" min="1" />
+                <h2 class="md-title">Find the pet with id...</h2>
+                <label for="petId">Pet id</label>: <input type="number" x-ng-model="petId" min="1" />
             </md-dialog-content>
 
             <md-dialog-actions layout="row">
-                <md-button ng-click="cancel()">
+                <md-button x-ng-click="cancel()">
                     Cancel
                 </md-button>
-                <md-button ng-click="answer()">
+                <md-button x-ng-click="ok()">
+                    OK
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>
+
+
+<!-- find a pet by status -->
+<script type="text/ng-template" id="findByStatus.tmpl.html" th:fragment="findById">
+    <md-dialog>
+        <form ng-cloak="">
+            <md-dialog-content class="md-dialog-content">
+                <h2 class="md-title">Find pets with status...</h2>
+                
+                <ul class="list-unstyled list-checkbox">
+                    <li x-ng-repeat="(stat, chosen) in selectedStatuses">
+                    <label>
+                        <input
+                            type="checkbox"
+                            x-ng-model="selectedStatuses[stat]"
+                        /> {{stat}}
+                    </label>
+                    </li>
+                </ul>
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button x-ng-click="cancel()">
+                    Cancel
+                </md-button>
+                <md-button x-ng-click="ok()">
                     OK
                 </md-button>
             </md-dialog-actions>

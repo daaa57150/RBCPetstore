@@ -75,7 +75,7 @@ angular.module(window.GLOBAL.appName)
 	
 	/**
 	 * @object method
-	 * @name findPetByStatus
+	 * @name findPetsByStatus
 	 * @description Finds the pets with any of the given statuses
 	 *
 	 * @param {array} statuses - the statuses
@@ -86,7 +86,7 @@ angular.module(window.GLOBAL.appName)
 	 * 									- exception {object} the exception if any
 	 * @returns {object} the http promise
 	 */
-	service.findPetByStatus = function(statuses, successCB, errorCB) {
+	service.findPetsByStatus = function(statuses, successCB, errorCB) {
 		return utilSrv.handleHttpResponse(
 			$http.get(GLOBAL.contextRoot + '/pet/findByStatus?status=' + _.join(statuses, ',')),
 			successCB, errorCB

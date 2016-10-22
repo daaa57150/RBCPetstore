@@ -10,8 +10,8 @@
     <div class="row" th:fragment="main">
     
         <div class="col-md-12">
-            <h1 x-ng-if="!pet">Detail for pet {{id}}</h1>
-            <h1 x-ng-if="pet">Detail for {{pet.name}}</h1>
+            <h1 x-ng-if="!pet">Details for pet {{id}}</h1>
+            <h1 x-ng-if="pet">Details for {{pet.name}}</h1>
             
             <!-- Loading when no pets loaded -->
             <div x-ng-if="!pet">
@@ -22,7 +22,7 @@
         
         
         <!-- Show the details once we loaded the pet -->
-        <div class="col-md-4 col-sm-6" x-ng-if="pet">
+        <div class="col-md-4 col-sm-4" x-ng-if="pet">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Identity
@@ -38,13 +38,13 @@
             </div>
         </div>
         
-        <div class="col-md-8 col-sm-6" x-ng-if="pet">
+        <div class="col-md-8 col-sm-8" x-ng-if="pet">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Photos
                 </div>
                 <div class="panel-body">
-                    the body
+                    TODO: http://fiestah.github.io/angular-gallery-directive/
                 </div>
             </div>
         </div>

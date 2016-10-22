@@ -5,7 +5,7 @@ angular.module(window.GLOBAL.appName)
 /**
  * Pet list controller
  */
-.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache,*/ $compile, $location, petSrv, utilSrv) {
+.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache,*/ $compile, $location, petSrv, utilSrv, $rootScope) {
 	console.log("inside pet list controller");
 	
 	// scope vars
@@ -16,7 +16,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.sortType     = 'id'; 	// set the default sort type
 	$scope.sortReverse  = false;  	// set the default sort order
 	$scope.currentPage 	= 1;
-	$scope.numPerPage 	= 8; 
+	$scope.numPerPage 	= 10; 
 	
 	$scope.paginate = function(pet, $index) {  
 		if(!$scope.pets) return false;
@@ -74,6 +74,20 @@ angular.module(window.GLOBAL.appName)
 			utilSrv.handleError/*(message, exception)*/
 		);
     }
+    
+    /**
+     * Load and show the pets with any of the given statuses
+     */
+    var listPetsWithStatuses = function(statuses) {
+    	$scope.pets = undefined;
+    	petSrv.findPetsByStatus(
+    			statuses,
+			function onSuccessPetsWithStatuses(pets) {
+    			$scope.pets = pets;
+			}, 
+			utilSrv.handleError/*(message, exception)*/
+		);
+    }
 	
     
     
@@ -113,6 +127,9 @@ angular.module(window.GLOBAL.appName)
 		$location.path( "/pet/detail/" + pet.id + ".html");
 	};
 	
+	
+	//TODO: put dialogs in a service
+	
 	/**
 	 * Shows a confirmation dialog asking if the user really wants to delete the pet.
 	 * If he answers yes, the pet is deleted
@@ -120,6 +137,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.confirmDeletion = function(pet, ev) {
 		
 		// TODO: load a template, compile it and apply a local scope to it
+		// => use the custom dialog with 'local' & 'templateurl' props
 		var htmlContent = 
 			'<dl class="pet-identity">' +
 			    '<dt>Id</dt><dd>' +pet.id+ '</dd>' +
@@ -154,7 +172,7 @@ angular.module(window.GLOBAL.appName)
 			controller: function ($scope, $mdDialog) {
 				$scope.petId = undefined;
 				$scope.cancel = $mdDialog.cancel;
-			    $scope.answer = function() {
+			    $scope.ok = function() {
 			    	if($scope.petId) {
 			    		$mdDialog.hide($scope.petId);
 			    	} else {
@@ -169,6 +187,48 @@ angular.module(window.GLOBAL.appName)
 		})
 		.then(function(id) {
 			listPetWithId(id);
+		}, function() {
+		    console.log("nope");
+		});
+		
+	};
+	
+	/**
+	 * Opens a dialog to search a pet by status
+	 */
+	$scope.findByStatus = function(ev) {
+		$mdDialog.show({
+			controller: function ($scope, $mdDialog, STATUS) {
+				
+				// the model for the checkboxes
+				$scope.selectedStatuses = {};
+				_.each(STATUS, function(stat) {
+					$scope.selectedStatuses[stat] = false;
+				});
+				
+				
+				$scope.cancel = $mdDialog.cancel;
+			    $scope.ok = function() {
+			    	if(_.some($scope.selectedStatuses)) {
+			    		var flatStatuses = _.reduce($scope.selectedStatuses, function(res, val, key) {
+			    			if(val) {
+			    				res.push(key);
+			    			}
+			    			return res;
+			    		}, []);
+			    		$mdDialog.hide(flatStatuses);
+			    	} else {
+			    		toastr.warning("Please choose at least one status"); 
+			    	}
+			    };
+			},
+		    templateUrl: 'findByStatus.tmpl.html',
+		    parent: angular.element(document.body),
+		    targetEvent: ev,
+		    clickOutsideToClose:true
+		})
+		.then(function(selectedStatuses) {
+			listPetsWithStatuses(selectedStatuses);
 		}, function() {
 		    console.log("nope");
 		});

@@ -35,7 +35,7 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="" x-ng-click="findById($event)">By id</a></li>
-                                    <li><a href="">By status</a></li>
+                                    <li><a href="" x-ng-click="findByStatus($event)">By status</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                 
                 <!--/* if at least 1 pet */-->
                 <div class="table-responsive" x-ng-show="pets.length > 0">
-                    <table class="table table-bordered table-striped table-pets">
+                    <table class="table table-bordered table-striped table-pets table-condensed">
                         <thead>
                             <tr>
                                 <th class="col-category col-sortable" x-ng-click="sortBy('category.name')">
@@ -110,12 +110,13 @@
                             max-size="5" boundary-links="true"  
                             items-per-page="numPerPage" class="pagination-sm pet-pagination"
                             x-ng-show="pets.length > numPerPage">  
-           </uib-pagination>
-       </div>
+            </uib-pagination>
+        </div>
         
             
         <!--/* DIALOGS IMPORTED */-->
         <th:block th:replace="pets/dialogs :: findById"/>
+        <th:block th:replace="pets/dialogs :: findByStatus"/>
         
     
         
