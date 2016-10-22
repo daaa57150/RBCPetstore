@@ -26,15 +26,15 @@
                     <div class="btn-toolbar" role="toolbar" aria-label="add...">
                         
                         <!-- filter -->
-                        <div class="btn-group" x-ng-show="pets.length > 0">
-                            <button type="button" class="btn btn-primary">All pets</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" x-ng-click="listAllPets()">All pets</button>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     Find...
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="">By id</a></li>
+                                    <li><a href="" x-ng-click="findById($event)">By id</a></li>
                                     <li><a href="">By status</a></li>
                                 </ul>
                             </div>
@@ -49,7 +49,7 @@
                 
                 <!--/* if no pet */-->
                 <div class="panel-body" x-ng-show="pets.length == 0">
-                    There are no pets!
+                    No pet found!
                 </div>
                 
                 <!--/* if at least 1 pet */-->
@@ -113,13 +113,10 @@
            </uib-pagination>
        </div>
         
+            
+        <!--/* DIALOGS IMPORTED */-->
+        <th:block th:replace="pets/dialogs :: findById"/>
         
-    <!--/* TODO: try to use the template for the dialog */-->
-    <script type="text/ng-template" id="deleteConfirmation">
-        <span>
-            Name: {{pet.name}}    
-        </span>
-    </script>
     
         
     </div> <!--/* end row & fragemnt */-->

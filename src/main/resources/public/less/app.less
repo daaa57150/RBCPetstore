@@ -68,6 +68,42 @@ th.col-sortable:hover {
     text-decoration: underline;
 }
 
+//.dl-horizontal {
+//    dt, dd {
+//        display: inline-block;
+//    }
+//}
+
+dl.pet-identity  {
+    float: left;
+    //width: 520px;
+    margin: 1em 0;
+    padding: 0;
+    //border-bottom: 1px solid #999;
+    
+    dt {
+        clear: left;
+        float: left;
+        width: 80px;
+        margin: 0;
+        padding: 5px;
+        //border-top: 1px solid #999;
+        font-weight: bold;
+        
+        &:after {content: ": ";}
+    }
+    
+    dd {
+        float: left;
+        //width: 300px;
+        margin: 0;
+        padding: 5px;
+        //border-top: 1px solid #999;
+        text-transform: capitalize;
+    }
+}
+
+//dt:after {content: ": ";}
 
 // PETS //
 .table-pets {

@@ -5,7 +5,7 @@ angular.module(window.GLOBAL.appName)
 /**
  * Pet list controller
  */
-.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache, $compile,*/ $location, petSrv, utilSrv) {
+.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache,*/ $compile, $location, petSrv, utilSrv) {
 	console.log("inside pet list controller");
 	
 	// scope vars
@@ -16,7 +16,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.sortType     = 'id'; 	// set the default sort type
 	$scope.sortReverse  = false;  	// set the default sort order
 	$scope.currentPage 	= 1;
-	$scope.numPerPage 	= 10; 
+	$scope.numPerPage 	= 8; 
 	
 	$scope.paginate = function(pet, $index) {  
 		if(!$scope.pets) return false;
@@ -45,16 +45,45 @@ angular.module(window.GLOBAL.appName)
     	$scope.sortType = property;
     };
     
+    /**
+     * Load and show all the pets
+     */
+    $scope.listAllPets = function() {
+    	$scope.pets = undefined;
+    	petSrv.listPets(
+			function onSuccessLoadPets(pets) {
+				$scope.pets = pets;
+			},
+			utilSrv.handleError/*(message, exception)*/
+		);
+    };
+    
+    /**
+     * Load and show the pet with the given id
+     */
+    var listPetWithId = function(id) {
+    	$scope.pets = undefined;
+    	petSrv.findPetById(
+    		id,
+			function onSuccessListPetWithId(pet) {
+    			$scope.pets = [];
+    			if(pet) {
+					$scope.pets.push(pet);
+				}
+			}, 
+			utilSrv.handleError/*(message, exception)*/
+		);
+    }
 	
-	// load the pets
-	petSrv.listPets(
-		function onSuccessLoadPets(pets) {
-			$scope.pets = pets;
-		}, 
-		function onErrorLoadPets(message, exception) {
-			utilSrv.handleError(message, exception);
-		});
+    
+    
+    
+	// load all the pets by default 
+    $scope.listAllPets();
 	
+    
+    
+    
 	
 	/**
 	 * Deletes a pet for real
@@ -69,7 +98,7 @@ angular.module(window.GLOBAL.appName)
 				handleError(message, exception);
 				pet.busy = false;
 			});
-	}
+	};
 	
 	
 	
@@ -90,23 +119,18 @@ angular.module(window.GLOBAL.appName)
 	 */
 	$scope.confirmDeletion = function(pet, ev) {
 		
-//		var deleteConfirmationTemplate = $templateCache.get("deleteConfirmation");
-//		var dialogScope = $scope.$new();
-//		dialogScope.pet = pet;
-//		//var plop = $compile(deleteConfirmationTemplate)(dialogScope);
-//		//console.log(deleteConfirmationTemplate);
-//		//dialogScope.$digest();
-		
 		// TODO: load a template, compile it and apply a local scope to it
 		var htmlContent = 
-			'Id: ' + pet.id + '<br/>'+
-			'Name: ' + pet.name + '<br/>' +
-			'Status: ' + pet.status;
+			'<dl class="pet-identity">' +
+			    '<dt>Id</dt><dd>' +pet.id+ '</dd>' +
+                '<dt>Name</dt><dd>' +pet.name+ '</dd>' +
+                '<dt>Category</dt><dd>' +pet.category.name+ '</dd>' +
+                '<dt>Status</dt><dd>' +pet.status+ '</dd>' +
+			'</dl>';
 		
 		// create the dialog
 	    var confirm = $mdDialog.confirm()
 	          .title('Are you sure you want to delete this ' + pet.category.name + ' ?')
-	          //.textContent('Name: ' + pet.name)
 	          .htmlContent(htmlContent)
 	          .ariaLabel('Delete ' + pet.name)
 	          .targetEvent(ev)
@@ -120,6 +144,35 @@ angular.module(window.GLOBAL.appName)
 	    }, function() {
 	    	console.log("nope");
 	    });
+	};
+	
+	/**
+	 * Opens a dialog to search a pet by id
+	 */
+	$scope.findById = function(ev) {
+		$mdDialog.show({
+			controller: function ($scope, $mdDialog) {
+				$scope.petId = undefined;
+				$scope.cancel = $mdDialog.cancel;
+			    $scope.answer = function() {
+			    	if($scope.petId) {
+			    		$mdDialog.hide($scope.petId);
+			    	} else {
+			    		toastr.warning("Please choose an id"); 
+			    	}
+			    };
+			},
+		    templateUrl: 'findById.tmpl.html',
+		    parent: angular.element(document.body),
+		    targetEvent: ev,
+		    clickOutsideToClose:true
+		})
+		.then(function(id) {
+			listPetWithId(id);
+		}, function() {
+		    console.log("nope");
+		});
+		
 	};
 	
 });
