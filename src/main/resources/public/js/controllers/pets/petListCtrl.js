@@ -12,7 +12,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.pets = undefined;
 	
 	// Sort & Pagination
-	// TODO: put all this in a directive
+	// TODO: put all this in a directive/service
 	$scope.sortType     = 'id'; 	// set the default sort type
 	$scope.sortReverse  = false;  	// set the default sort order
 	$scope.currentPage 	= 1;
@@ -94,12 +94,13 @@ angular.module(window.GLOBAL.appName)
 		 */
 		deletePet = function(pet) {
 			pet.busy = true;
-			petSrv.deletePet(pet, 
+			petSrv.deletePet(
+				pet, 
 				function onDeleteSuccess() {
 					_.remove($scope.pets, pet);
 					toastr.success(pet.name + ' (id=' + pet.id + ')' + ' deleted.');
 				}, function onDeleteError(message, exception) {
-					utilSrv.handleError/*(message, exception)*/
+					utilSrv.handleError(message, exception);
 					pet.busy = false;
 				});
 		}; 
