@@ -60,6 +60,31 @@
     </md-dialog>
 </script>
 
+<!-- find a pet by status -->
+<script type="text/ng-template" id="confirmDeletion.tmpl.html" th:fragment="confirmDeletion">
+    <md-dialog>
+        <form ng-cloak="">
+            <md-dialog-content class="md-dialog-content">
+                <h2 class="md-title">Are you sure you want to delete this {{pet.category.name}} ?</h2>
+                <dl class="pet-identity">
+                    <dt>Id</dt><dd>{{pet.id}}</dd>
+                    <dt>Name</dt><dd>{{pet.name}}</dd>
+                    <dt>Status</dt><dd>{{pet.status}}</dd>
+                </dl>
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button x-ng-click="cancel()">
+                    No
+                </md-button>
+                <md-button x-ng-click="ok()">
+                    Yes
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>
+
 
 
 </body>

@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * Manages pets
- */
 angular.module(window.GLOBAL.appName)
 
 /**

@@ -81,7 +81,7 @@ angular.module(window.GLOBAL.appName)
     var listPetsWithStatuses = function(statuses) {
     	$scope.pets = undefined;
     	petSrv.findPetsByStatus(
-    			statuses,
+    		statuses,
 			function onSuccessPetsWithStatuses(pets) {
     			$scope.pets = pets;
 			}, 
@@ -109,7 +109,7 @@ angular.module(window.GLOBAL.appName)
 				_.remove($scope.pets, pet);
 				toastr.success(pet.name + ' (id=' + pet.id + ')' + ' deleted.');
 			}, function onDeleteError(message, exception) {
-				handleError(message, exception);
+				utilSrv.handleError/*(message, exception)*/
 				pet.busy = false;
 			});
 	};
@@ -135,33 +135,24 @@ angular.module(window.GLOBAL.appName)
 	 * If he answers yes, the pet is deleted
 	 */
 	$scope.confirmDeletion = function(pet, ev) {
-		
-		// TODO: load a template, compile it and apply a local scope to it
-		// => use the custom dialog with 'local' & 'templateurl' props
-		var htmlContent = 
-			'<dl class="pet-identity">' +
-			    '<dt>Id</dt><dd>' +pet.id+ '</dd>' +
-                '<dt>Name</dt><dd>' +pet.name+ '</dd>' +
-                '<dt>Category</dt><dd>' +pet.category.name+ '</dd>' +
-                '<dt>Status</dt><dd>' +pet.status+ '</dd>' +
-			'</dl>';
-		
-		// create the dialog
-	    var confirm = $mdDialog.confirm()
-	          .title('Are you sure you want to delete this ' + pet.category.name + ' ?')
-	          .htmlContent(htmlContent)
-	          .ariaLabel('Delete ' + pet.name)
-	          .targetEvent(ev)
-	          .clickOutsideToClose(true)
-	          .ok('YES')
-	          .cancel('NO');
-	    
-	    // show the dialog
-	    $mdDialog.show(confirm).then(function() {
-	    	deletePet(pet);
-	    }, function() {
-	    	console.log("nope");
-	    });
+		$mdDialog.show({
+			controller: function ($scope, $mdDialog) {
+				$scope.pet = pet;
+				$scope.cancel = $mdDialog.cancel;
+			    $scope.ok = function() {
+			    	$mdDialog.hide(true);
+			    };
+			},
+		    templateUrl: 'confirmDeletion.tmpl.html',
+		    parent: angular.element(document.body),
+		    targetEvent: ev,
+		    clickOutsideToClose:true
+		})
+		.then(function(confirmed) {
+			deletePet(pet);
+		}, function() {
+		    console.log("nope");
+		});
 	};
 	
 	/**

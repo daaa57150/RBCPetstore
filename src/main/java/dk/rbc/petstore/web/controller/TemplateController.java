@@ -64,7 +64,7 @@ public class TemplateController {
      */
     @RequestMapping("petDetail")
     public String templatePetDetail() {
-        LOGGER.debug("Thymeleaf template petList");
+        LOGGER.debug("Thymeleaf template petDetail");
         return "pets/petDetail :: main";
     }
     
