@@ -5,7 +5,7 @@ angular.module(window.GLOBAL.appName)
 /**
  * Pet list controller
  */
-.controller('PetListCtrl', function($scope, $location, $window, $mdDialog, /*$templateCache,*/ $compile, $location, petSrv, utilSrv, $rootScope) {
+.controller('PetListCtrl', function($scope, $location, $window, $location, petSrv, utilSrv, dialogSrv) {
 	console.log("inside pet list controller");
 	
 	// scope vars
@@ -48,71 +48,66 @@ angular.module(window.GLOBAL.appName)
     /**
      * Load and show all the pets
      */
-    $scope.listAllPets = function() {
-    	$scope.pets = undefined;
-    	petSrv.listPets(
-			function onSuccessLoadPets(pets) {
-				$scope.pets = pets;
-			},
-			utilSrv.handleError/*(message, exception)*/
-		);
-    };
+    var listAllPets = function() {
+	    	$scope.pets = undefined;
+	    	petSrv.listPets(
+				function onSuccessLoadPets(pets) {
+					$scope.pets = pets;
+				},
+				utilSrv.handleError/*(message, exception)*/
+			);
+	    },
     
-    /**
-     * Load and show the pet with the given id
-     */
-    var listPetWithId = function(id) {
-    	$scope.pets = undefined;
-    	petSrv.findPetById(
-    		id,
-			function onSuccessListPetWithId(pet) {
-    			$scope.pets = [];
-    			if(pet) {
-					$scope.pets.push(pet);
-				}
-			}, 
-			utilSrv.handleError/*(message, exception)*/
-		);
-    }
+	    /**
+	     * Load and show the pet with the given id
+	     */
+	    listPetWithId = function(id) {
+	    	$scope.pets = undefined;
+	    	petSrv.findPetById(
+	    		id,
+				function onSuccessListPetWithId(pet) {
+	    			$scope.pets = [];
+	    			if(pet) {
+						$scope.pets.push(pet);
+					}
+				}, 
+				utilSrv.handleError/*(message, exception)*/
+			);
+	    },
     
-    /**
-     * Load and show the pets with any of the given statuses
-     */
-    var listPetsWithStatuses = function(statuses) {
-    	$scope.pets = undefined;
-    	petSrv.findPetsByStatus(
-    		statuses,
-			function onSuccessPetsWithStatuses(pets) {
-    			$scope.pets = pets;
-			}, 
-			utilSrv.handleError/*(message, exception)*/
-		);
-    }
+	    /**
+	     * Load and show the pets with any of the given statuses
+	     */
+	    listPetsWithStatuses = function(statuses) {
+	    	$scope.pets = undefined;
+	    	petSrv.findPetsByStatus(
+	    		statuses,
+				function onSuccessPetsWithStatuses(pets) {
+	    			$scope.pets = pets;
+				}, 
+				utilSrv.handleError/*(message, exception)*/
+			);
+	    },
 	
-    
+	    /**
+		 * Deletes a pet for real
+		 */
+		deletePet = function(pet) {
+			pet.busy = true;
+			petSrv.deletePet(pet, 
+				function onDeleteSuccess() {
+					_.remove($scope.pets, pet);
+					toastr.success(pet.name + ' (id=' + pet.id + ')' + ' deleted.');
+				}, function onDeleteError(message, exception) {
+					utilSrv.handleError/*(message, exception)*/
+					pet.busy = false;
+				});
+		}; 
+ 	// end vars
     
     
 	// load all the pets by default 
-    $scope.listAllPets();
-	
-    
-    
-    
-	
-	/**
-	 * Deletes a pet for real
-	 */
-	var deletePet = function(pet) {
-		pet.busy = true;
-		petSrv.deletePet(pet, 
-			function onDeleteSuccess() {
-				_.remove($scope.pets, pet);
-				toastr.success(pet.name + ' (id=' + pet.id + ')' + ' deleted.');
-			}, function onDeleteError(message, exception) {
-				utilSrv.handleError/*(message, exception)*/
-				pet.busy = false;
-			});
-	};
+    listAllPets();
 	
 	
 	
@@ -127,103 +122,37 @@ angular.module(window.GLOBAL.appName)
 		$location.path( "/pet/detail/" + pet.id + ".html");
 	};
 	
-	
-	//TODO: put dialogs in a service
-	
 	/**
 	 * Shows a confirmation dialog asking if the user really wants to delete the pet.
 	 * If he answers yes, the pet is deleted
 	 */
 	$scope.confirmDeletion = function(pet, ev) {
-		$mdDialog.show({
-			controller: function ($scope, $mdDialog) {
-				$scope.pet = pet;
-				$scope.cancel = $mdDialog.cancel;
-			    $scope.ok = function() {
-			    	$mdDialog.hide(true);
-			    };
-			},
-		    templateUrl: 'confirmDeletion.tmpl.html',
-		    parent: angular.element(document.body),
-		    targetEvent: ev,
-		    clickOutsideToClose:true
-		})
-		.then(function(confirmed) {
+		dialogSrv.confirmPetDeletion(pet, ev, function confirmPetDeletionCB() {
 			deletePet(pet);
-		}, function() {
-		    console.log("nope");
 		});
 	};
 	
 	/**
-	 * Opens a dialog to search a pet by id
+	 * Lists all the pets
+	 */
+	$scope.listAllPets = listAllPets;
+	
+	/**
+	 * Opens a dialog to search a pet by id, and displays it
 	 */
 	$scope.findById = function(ev) {
-		$mdDialog.show({
-			controller: function ($scope, $mdDialog) {
-				$scope.petId = undefined;
-				$scope.cancel = $mdDialog.cancel;
-			    $scope.ok = function() {
-			    	if($scope.petId) {
-			    		$mdDialog.hide($scope.petId);
-			    	} else {
-			    		toastr.warning("Please choose an id"); 
-			    	}
-			    };
-			},
-		    templateUrl: 'findById.tmpl.html',
-		    parent: angular.element(document.body),
-		    targetEvent: ev,
-		    clickOutsideToClose:true
-		})
-		.then(function(id) {
+		dialogSrv.findPetById(ev, function findPetByIdCB(id) {
 			listPetWithId(id);
-		}, function() {
-		    console.log("nope");
 		});
-		
 	};
 	
 	/**
-	 * Opens a dialog to search a pet by status
+	 * Opens a dialog to search a pet by status, and list pets with the chosen status
 	 */
 	$scope.findByStatus = function(ev) {
-		$mdDialog.show({
-			controller: function ($scope, $mdDialog, STATUS) {
-				
-				// the model for the checkboxes
-				$scope.selectedStatuses = {};
-				_.each(STATUS, function(stat) {
-					$scope.selectedStatuses[stat] = false;
-				});
-				
-				
-				$scope.cancel = $mdDialog.cancel;
-			    $scope.ok = function() {
-			    	if(_.some($scope.selectedStatuses)) {
-			    		var flatStatuses = _.reduce($scope.selectedStatuses, function(res, val, key) {
-			    			if(val) {
-			    				res.push(key);
-			    			}
-			    			return res;
-			    		}, []);
-			    		$mdDialog.hide(flatStatuses);
-			    	} else {
-			    		toastr.warning("Please choose at least one status"); 
-			    	}
-			    };
-			},
-		    templateUrl: 'findByStatus.tmpl.html',
-		    parent: angular.element(document.body),
-		    targetEvent: ev,
-		    clickOutsideToClose:true
+		dialogSrv.findPetByStatus(ev, function findPetByStatusCB(statuses) {
+			listPetsWithStatuses(statuses);
 		})
-		.then(function(selectedStatuses) {
-			listPetsWithStatuses(selectedStatuses);
-		}, function() {
-		    console.log("nope");
-		});
-		
 	};
 	
 });
