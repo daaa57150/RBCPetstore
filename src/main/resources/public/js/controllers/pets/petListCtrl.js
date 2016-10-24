@@ -123,8 +123,11 @@ angular.module(window.GLOBAL.appName)
 		$location.path( "/pet/detail/" + pet.id + ".html");
 	};
 	
-	$scope.addPet = function() {
-		console.log("go to add pet");
+	$scope.addPet = function(ev) {
+		dialogSrv.addPet(ev, function confirmAddPetCB(pet) {
+			console.log("TODO: add this pet:");
+			console.log(pet);
+		});
 	};
 	
 	/**

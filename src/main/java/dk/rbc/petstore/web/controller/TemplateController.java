@@ -68,6 +68,7 @@ public class TemplateController {
         return "pets/petDetail :: main";
     }
     
+    
     /**
      * Main page template
      * 

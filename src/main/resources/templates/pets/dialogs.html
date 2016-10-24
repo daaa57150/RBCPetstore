@@ -8,7 +8,7 @@
 
 
 <!-- find a pet by id -->
-<script type="text/ng-template" id="findById.tmpl.html" th:fragment="findById">
+<script type="text/ng-template" id="findPetById.tmpl.html" th:fragment="findPetById">
     <md-dialog>
         <form ng-cloak="">
             <md-dialog-content class="md-dialog-content">
@@ -30,7 +30,7 @@
 
 
 <!-- find a pet by status -->
-<script type="text/ng-template" id="findByStatus.tmpl.html" th:fragment="findById">
+<script type="text/ng-template" id="findPetByStatus.tmpl.html" th:fragment="findPetByStatus">
     <md-dialog>
         <form ng-cloak="">
             <md-dialog-content class="md-dialog-content">
@@ -60,8 +60,8 @@
     </md-dialog>
 </script>
 
-<!-- find a pet by status -->
-<script type="text/ng-template" id="confirmDeletion.tmpl.html" th:fragment="confirmDeletion">
+<!-- confirm pet deletion -->
+<script type="text/ng-template" id="confirmPetDeletion.tmpl.html" th:fragment="confirmPetDeletion">
     <md-dialog>
         <form ng-cloak="">
             <md-dialog-content class="md-dialog-content">
@@ -85,6 +85,48 @@
     </md-dialog>
 </script>
 
+<!-- add a pet -->
+<script type="text/ng-template" id="addPet.tmpl.html" th:fragment="addPet">
+    <md-dialog x-ng-controller="AddPetCtrl">
+        <form ng-cloak="">
+            <md-dialog-content class="md-dialog-content">
+                <h2 class="md-title">Add a new pet</h2>
+
+                <div x-ng-show="!categories">Please wait...</div>
+                <div x-ng-if="categories" class="add-pet-container">
+                    <div>
+                        <label for="newPetCategory">Category</label>
+                        <select id="newPetCategory" x-ng-model="pet.category" required="true" 
+                            x-ng-options="cat as cat.name for cat in categories track by cat.id">
+                            <option value="">Choose a category...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="newPetName">Name</label>
+                        <input type="text" id="newPetName" x-ng-model="pet.name" required="true" placeholder="The pet's name" />
+                    </div>
+
+                    <div>
+                        <label for="newPetStatus">Status</label>
+                        <select id="newPetStatus" x-ng-model="pet.status" required="true">
+                            <option ng-repeat="stat in STATUS" value="{{stat}}">{{stat}}</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button x-ng-click="cancel()">
+                    Cancel
+                </md-button>
+                <md-button x-ng-click="ok()">
+                    Add
+                </md-button>
+            </md-dialog-actions>
+        </form>
+    </md-dialog>
+</script>
 
 
 </body>

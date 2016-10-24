@@ -17,7 +17,7 @@ angular.module(window.GLOBAL.appName)
 	
 	/**
 	 * Shows a confirmation dialog asking if the user really wants to delete the pet.
-	 * Needs the pets/dialogs :: confirmDeletion fragment
+	 * Needs the pets/dialogs :: confirmPetDeletion fragment
 	 */
 	service.confirmPetDeletion = function(pet, ev, okCB) {
 		$mdDialog.show({
@@ -28,12 +28,30 @@ angular.module(window.GLOBAL.appName)
 			    	$mdDialog.hide(true);
 			    };
 			},
-		    templateUrl: 'confirmDeletion.tmpl.html',
+		    templateUrl: 'confirmPetDeletion.tmpl.html',
 		    parent: angular.element(document.body),
 		    targetEvent: ev,
 		    clickOutsideToClose:true
 		})
 		.then(function(confirmed) {
+			okCB(confirmed);
+		}, function() {
+			cancelCB();
+		});
+	};
+	
+	/**
+	 * 
+	 */
+	service.addPet = function(ev, okCB) {
+		$mdDialog.show({
+			//controller: 'AddPetController', // => called in the template
+		    templateUrl: 'addPet.tmpl.html',
+		    parent: angular.element(document.body),
+		    targetEvent: ev,
+		    clickOutsideToClose:true
+		})
+		.then(function(pet) {
 			okCB(pet);
 		}, function() {
 			cancelCB();
@@ -42,7 +60,7 @@ angular.module(window.GLOBAL.appName)
 	
 	/**
 	 * Opens a dialog to search a pet by id.
-	 * Needs the pets/dialogs :: findById fragment
+	 * Needs the pets/dialogs :: findPetById fragment
 	 */
 	service.findPetById = function(ev, okCB) {
 		$mdDialog.show({
@@ -57,7 +75,7 @@ angular.module(window.GLOBAL.appName)
 			    	}
 			    };
 			},
-		    templateUrl: 'findById.tmpl.html',
+		    templateUrl: 'findPetById.tmpl.html',
 		    parent: angular.element(document.body),
 		    targetEvent: ev,
 		    clickOutsideToClose:true
@@ -72,7 +90,7 @@ angular.module(window.GLOBAL.appName)
 	
 	/**
 	 * Opens a dialog to search a pet by status
-	 * Needs the pets/dialogs :: findByStatus fragment
+	 * Needs the pets/dialogs :: findPetByStatus fragment
 	 */
 	service.findPetByStatus = function(ev, okCB) {
 		$mdDialog.show({
@@ -99,7 +117,7 @@ angular.module(window.GLOBAL.appName)
 			    	}
 			    };
 			},
-		    templateUrl: 'findByStatus.tmpl.html',
+		    templateUrl: 'findPetByStatus.tmpl.html',
 		    parent: angular.element(document.body),
 		    targetEvent: ev,
 		    clickOutsideToClose:true

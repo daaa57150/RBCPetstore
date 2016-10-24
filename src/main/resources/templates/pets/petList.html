@@ -42,7 +42,7 @@
                             
                         <!-- add -->
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-primary btn-tool"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-primary btn-tool" x-ng-click="addPet($event)"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
@@ -115,9 +115,10 @@
         
             
         <!--/* DIALOGS IMPORTED */-->
-        <th:block th:replace="pets/dialogs :: findById"/>
-        <th:block th:replace="pets/dialogs :: findByStatus"/>
-        <th:block th:replace="pets/dialogs :: confirmDeletion"/>
+        <th:block th:replace="pets/dialogs :: findPetById"/>
+        <th:block th:replace="pets/dialogs :: findPetByStatus"/>
+        <th:block th:replace="pets/dialogs :: confirmPetDeletion"/>
+        <th:block th:replace="pets/dialogs :: addPet"/>
         
     
         

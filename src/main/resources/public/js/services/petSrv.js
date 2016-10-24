@@ -88,8 +88,26 @@ angular.module(window.GLOBAL.appName)
 			$http.get(GLOBAL.contextRoot + '/pet/findByStatus?status=' + _.join(statuses, ',')),
 			successCB, errorCB
 		);
-	}
+	};
 	
+	/**
+	 * @object method
+	 * @name listCategories
+	 * @description Lists the available pet categories
+	 *
+	 * @param {function} successCB - success callback with params:
+	 * 								 	- categories {array} the list of categories found
+	 * @param {function} errorCB - error callback with params:
+	 * 									- error {string} error message if any
+	 * 									- exception {object} the exception if any
+	 * @returns {object} the http promise
+	 */
+	service.listCategories = function(successCB, errorCB) {
+		return utilSrv.handleHttpResponse(
+			$http.get(GLOBAL.contextRoot + '/pet/categories'),
+			successCB, errorCB
+		);
+	};
 
 	return service;
 });
