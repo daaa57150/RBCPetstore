@@ -12,7 +12,7 @@ angular.module(window.GLOBAL.appName)
 	
 	// scope init
 	$scope.pet = { // the pet we're creating
-		status: "AVAILABLE" // available by default
+		status: STATUS.AVAILABLE // available by default
 	}; 
 	$scope.categories = undefined; // we'll load the available categories asynchronously
 	$scope.STATUS = STATUS;

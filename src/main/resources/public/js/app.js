@@ -30,7 +30,7 @@ angular.element(document).ready(
         */
         var statusPromise = $http.get('/pet/statuses').then( //start init then
             function sucess(response) {
-        		var statuses = [],
+        		var statuses = {},
         			data = response.data;
             	if(!data.success) {
             		var error = data.errorMessage ? data.errorMessage : data.exception; 
@@ -38,7 +38,10 @@ angular.element(document).ready(
             		console.log(error);
             	}
             	else {
-            		statuses = data.content;
+            		//statuses = data.content;
+            		_.each(data.content, function(stat) {
+            			statuses[stat] = stat;
+            		});
                 	console.log("STATUS preloaded:");
                 	console.log(statuses);
             	}
