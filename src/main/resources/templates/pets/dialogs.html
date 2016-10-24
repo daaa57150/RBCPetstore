@@ -88,7 +88,7 @@
 <!-- add a pet -->
 <script type="text/ng-template" id="addPet.tmpl.html" th:fragment="addPet">
     <md-dialog x-ng-controller="AddPetCtrl">
-        <form ng-cloak="">
+        <form name="addPetForm" ng-cloak="" novalidate="">
             <md-dialog-content class="md-dialog-content">
                 <h2 class="md-title">Add a new pet</h2>
 
@@ -96,14 +96,16 @@
                 <div x-ng-if="categories" class="add-pet-container">
                     <div>
                         <label for="newPetCategory">Category</label>
-                        <select id="newPetCategory" x-ng-model="pet.category" required="true" 
+                        <select id="newPetCategory" name="newPetCategory" x-ng-model="pet.category" required="true" 
                             x-ng-options="cat as cat.name for cat in categories track by cat.id">
                             <option value="">Choose a category...</option>
                         </select>
+                        <p x-ng-show="addPetForm.newPetCategory.$invalid &amp;&amp; !addPetForm.newPetCategory.$pristine" class="form-error">The category is required.</p>
                     </div>
                     <div>
                         <label for="newPetName">Name</label>
-                        <input type="text" id="newPetName" x-ng-model="pet.name" required="true" placeholder="The pet's name" />
+                        <input type="text" name="newPetName" id="newPetName" x-ng-model="pet.name" required="true" placeholder="The pet's name" />
+                        <p x-ng-show="addPetForm.newPetName.$invalid &amp;&amp; !addPetForm.newPetName.$pristine" class="form-error">The name is required.</p>
                     </div>
 
                     <div>
@@ -120,7 +122,7 @@
                 <md-button x-ng-click="cancel()">
                     Cancel
                 </md-button>
-                <md-button x-ng-click="ok()">
+                <md-button x-ng-click="ok()" ng-disabled="addPetForm.$invalid">
                     Add
                 </md-button>
             </md-dialog-actions>

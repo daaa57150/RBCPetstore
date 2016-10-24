@@ -35,7 +35,7 @@ angular.module(window.GLOBAL.appName)
 	 * @name deletePet
 	 * @description Delete the pet with the given id
 	 *
-	 * @param {int} pet - the pet to delete
+	 * @param {object} pet - the pet to delete
 	 * @param {function} successCB - success callback with params:
 	 * 								 	- deleted {boolean} true if it was deleted, false it it didn't exist
 	 * @param {function} errorCB - error callback with params:
@@ -49,6 +49,27 @@ angular.module(window.GLOBAL.appName)
 			successCB, errorCB
 		);
 	}
+	
+	/**
+	 * @object method
+	 * @name addPet
+	 * @description Adds a pet
+	 *
+	 * @param {object} pet - the pet to add
+	 * @param {function} successCB - success callback with params:
+	 * 								 	- deleted {boolean} true if it was deleted, false it it didn't exist
+	 * @param {function} errorCB - error callback with params:
+	 * 									- error {string} error message if any
+	 * 									- exception {object} the exception if any
+	 * @returns {object} the http promise
+	 */
+	service.addPet = function(pet, successCB, errorCB) {
+		return utilSrv.handleHttpResponse(
+			$http.post(GLOBAL.contextRoot + '/pet', pet),
+			successCB, errorCB
+		);
+	}
+	
 	
 	/**
 	 * @object method

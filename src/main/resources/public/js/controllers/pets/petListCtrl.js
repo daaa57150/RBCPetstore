@@ -123,10 +123,15 @@ angular.module(window.GLOBAL.appName)
 		$location.path( "/pet/detail/" + pet.id + ".html");
 	};
 	
+	/**
+	 * Shows a dialog to create a pet and creates it upon confirmation
+	 */
 	$scope.addPet = function(ev) {
 		dialogSrv.addPet(ev, function confirmAddPetCB(pet) {
-			console.log("TODO: add this pet:");
-			console.log(pet);
+			petSrv.addPet(pet, function(createdPed) {
+				$scope.pets.push(createdPed);
+				toastr.success(createdPed.name + " (id=" + createdPed.id+ ") successfully created.");
+			});
 		});
 	};
 	

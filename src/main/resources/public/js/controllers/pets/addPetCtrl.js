@@ -20,7 +20,11 @@ angular.module(window.GLOBAL.appName)
 	// ok & cancel buttons
 	$scope.cancel = $mdDialog.cancel;
     $scope.ok = function() {
-    	$mdDialog.hide($scope.pet);
+    	if($scope.addPetForm.$valid) {
+    		$mdDialog.hide($scope.pet);
+    	} else {
+    		toastr.error("");
+    	}
     };
     
     
