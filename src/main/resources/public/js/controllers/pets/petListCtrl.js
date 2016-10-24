@@ -103,7 +103,19 @@ angular.module(window.GLOBAL.appName)
 					utilSrv.handleError(message, exception);
 					pet.busy = false;
 				});
-		}; 
+		},
+		
+		/**
+		 * Adds a pet
+		 */
+		addPet = function(pet) {
+			petSrv.addPet(pet, function(createdPed) {
+				$scope.pets.push(createdPed);
+				toastr.success(createdPed.name + " (id=" + createdPed.id+ ") successfully created.");
+				console.log("TODO: maybe this pet should not be added automatically");
+			});
+		}
+	    ; 
  	// end vars
     
     
@@ -128,10 +140,7 @@ angular.module(window.GLOBAL.appName)
 	 */
 	$scope.addPet = function(ev) {
 		dialogSrv.addPet(ev, function confirmAddPetCB(pet) {
-			petSrv.addPet(pet, function(createdPed) {
-				$scope.pets.push(createdPed);
-				toastr.success(createdPed.name + " (id=" + createdPed.id+ ") successfully created.");
-			});
+			addPet(pet);
 		});
 	};
 	
