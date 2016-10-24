@@ -123,6 +123,10 @@ angular.module(window.GLOBAL.appName)
 		$location.path( "/pet/detail/" + pet.id + ".html");
 	};
 	
+	$scope.addPet = function() {
+		console.log("go to add pet");
+	};
+	
 	/**
 	 * Shows a confirmation dialog asking if the user really wants to delete the pet.
 	 * If he answers yes, the pet is deleted
