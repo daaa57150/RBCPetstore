@@ -43,7 +43,7 @@ public class Wro4jCustomXmlModelManagerFactory extends ConfigurableWroManagerFac
     /** {@inheritDoc} */
     @Override
     protected WroModelFactory newModelFactory() {
-        LOGGER.debug("loading from /wro.xml"); // TODO: externalize the resource?
+        LOGGER.debug("loading from /wro.xml");
         return new XmlModelFactory() {
             @Override
             protected InputStream getModelResourceAsStream() throws IOException {

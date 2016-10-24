@@ -45,7 +45,6 @@ public class PetServiceImpl implements PetService {
         // we clone the given pet because if the pet is already managed by JPA (has an id),
         // repo.save() would update it, and that's not what we want, we want to create one from 
         // the parameter which is essentially a model
-        // TODO: confirm those claims
         try {
             Pet newPet = (Pet)BeanUtils.cloneBean(pet);
             newPet.setId(null);

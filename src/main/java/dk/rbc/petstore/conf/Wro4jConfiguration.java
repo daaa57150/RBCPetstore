@@ -33,7 +33,7 @@ public class Wro4jConfiguration {
      */
     private Properties readProperties() {
         final Properties properties = new Properties();
-        try (final InputStream stream = this.getClass().getResourceAsStream("/wro.properties")) { //TODO: externalize the resource?
+        try (final InputStream stream = this.getClass().getResourceAsStream("/wro.properties")) {
             if(stream == null) throw new IOException("Null stream");
             properties.load(stream);
         } catch (IOException e) {
