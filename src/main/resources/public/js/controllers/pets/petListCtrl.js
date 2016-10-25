@@ -45,10 +45,49 @@ angular.module(window.GLOBAL.appName)
     	$scope.sortType = property;
     };
     
-    /**
-     * Load and show all the pets
-     */
-    var listAllPets = function() {
+    
+    // current filter 
+    // => a function applied to arguments
+    var currentFilter = {
+	    	func: undefined,
+	    	args: undefined
+	    },
+	    
+	    /**
+	     * Configures the current filter
+	     */
+	    setFilter = function(func, args) {
+    		currentFilter.func = func;
+    		currentFilter.args = args ? args : [];
+    	},
+    	
+    	/**
+    	 * Applies the current filter if any; if it hasn't changed it just 
+    	 * refreshes the list
+    	 */
+    	filter = function() {
+    		if(currentFilter.func) {
+    			currentFilter.apply(null, currentFilter.args);
+    		}
+    	},
+    	
+    	/**
+    	 * Refreshes the current list
+    	 */
+    	refreshList = function() {
+    		if(currentFilter.func) {
+    			$scope.pets = undefined;
+    			currentFilter.func.apply(null, currentFilter.args);
+    			console.log("list refreshed.");
+    		} else {
+    			toastr.warn("Cannot refresh the list; no filter");
+    		}
+    	},
+    	    
+    	/**
+    	 * Load and show all the pets
+    	 */
+    	listAllPets = function() {
 	    	$scope.pets = undefined;
 	    	petSrv.listPets(
 				function onSuccessLoadPets(pets) {
@@ -109,10 +148,8 @@ angular.module(window.GLOBAL.appName)
 		 * Adds a pet
 		 */
 		addPet = function(pet) {
-			petSrv.addPet(pet, function(createdPed) {
-				$scope.pets.push(createdPed);
+			return petSrv.addPet(pet, function(createdPed) {
 				toastr.success(createdPed.name + " (id=" + createdPed.id+ ") successfully created.");
-				console.log("TODO: maybe this pet should not be added automatically");
 			});
 		}
 	    ; 
@@ -121,6 +158,7 @@ angular.module(window.GLOBAL.appName)
     
 	// load all the pets by default 
     listAllPets();
+    setFilter(listAllPets);
 	
 	
 	
@@ -140,7 +178,9 @@ angular.module(window.GLOBAL.appName)
 	 */
 	$scope.addPet = function(ev) {
 		dialogSrv.addPet(ev, function confirmAddPetCB(pet) {
-			addPet(pet);
+			addPet(pet).then(function() {
+				refreshList();
+			});
 		});
 	};
 	
@@ -157,7 +197,10 @@ angular.module(window.GLOBAL.appName)
 	/**
 	 * Lists all the pets
 	 */
-	$scope.listAllPets = listAllPets;
+	$scope.listAllPets = function() {
+		listAllPets();
+		setFilter(listAllPets);
+	};
 	
 	/**
 	 * Opens a dialog to search a pet by id, and displays it
@@ -165,6 +208,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.findById = function(ev) {
 		dialogSrv.findPetById(ev, function findPetByIdCB(id) {
 			listPetWithId(id);
+			setFilter(listPetWithId, [id]);
 		});
 	};
 	
@@ -174,8 +218,14 @@ angular.module(window.GLOBAL.appName)
 	$scope.findByStatus = function(ev) {
 		dialogSrv.findPetByStatus(ev, function findPetByStatusCB(statuses) {
 			listPetsWithStatuses(statuses);
+			setFilter(listPetsWithStatuses, [statuses]);
 		})
 	};
+	
+	/**
+	 * Refreshes the current list
+	 */
+	$scope.refresh = refreshList;
 	
 });
 
