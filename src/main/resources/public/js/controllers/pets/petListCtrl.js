@@ -77,7 +77,13 @@ angular.module(window.GLOBAL.appName)
     	refreshList = function() {
     		if(currentFilter.func) {
     			$scope.pets = undefined;
-    			currentFilter.func.apply(null, currentFilter.args);
+    			var ret = currentFilter.func.apply(null, currentFilter.args),
+    				currentPage = $scope.currentPage; // keep track of it because the calls to 'pets = undefined' makes it go back to 1
+    			if(ret.then) {
+    				ret.then(function() {
+    					$scope.currentPage = currentPage;
+    				});
+    			}
     			console.log("list refreshed.");
     		} else {
     			toastr.warn("Cannot refresh the list; no filter");
@@ -89,7 +95,7 @@ angular.module(window.GLOBAL.appName)
     	 */
     	listAllPets = function() {
 	    	$scope.pets = undefined;
-	    	petSrv.listPets(
+	    	return petSrv.listPets(
 				function onSuccessLoadPets(pets) {
 					$scope.pets = pets;
 				},
@@ -102,7 +108,7 @@ angular.module(window.GLOBAL.appName)
 	     */
 	    listPetWithId = function(id) {
 	    	$scope.pets = undefined;
-	    	petSrv.findPetById(
+	    	return petSrv.findPetById(
 	    		id,
 				function onSuccessListPetWithId(pet) {
 	    			$scope.pets = [];
@@ -119,7 +125,7 @@ angular.module(window.GLOBAL.appName)
 	     */
 	    listPetsWithStatuses = function(statuses) {
 	    	$scope.pets = undefined;
-	    	petSrv.findPetsByStatus(
+	    	return petSrv.findPetsByStatus(
 	    		statuses,
 				function onSuccessPetsWithStatuses(pets) {
 	    			$scope.pets = pets;
@@ -133,7 +139,7 @@ angular.module(window.GLOBAL.appName)
 		 */
 		deletePet = function(pet) {
 			pet.busy = true;
-			petSrv.deletePet(
+			return petSrv.deletePet(
 				pet, 
 				function onDeleteSuccess() {
 					_.remove($scope.pets, pet);
@@ -179,6 +185,7 @@ angular.module(window.GLOBAL.appName)
 	$scope.addPet = function(ev) {
 		dialogSrv.addPet(ev, function confirmAddPetCB(pet) {
 			addPet(pet).then(function() {
+				// also refresh the list when finished
 				refreshList();
 			});
 		});
