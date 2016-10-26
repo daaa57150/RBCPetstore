@@ -1,7 +1,6 @@
 package dk.rbc.petstore.service;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -16,6 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Iterables;
 
 import dk.rbc.petstore.domain.entities.Category;
 import dk.rbc.petstore.domain.entities.Pet;
@@ -172,7 +173,7 @@ public class PetServiceTests {
     }
     
     /**
-     * Tests {@link PetService.testDeletePetById(Long)}
+     * Tests {@link PetService.deletePetById(Long)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
@@ -193,40 +194,40 @@ public class PetServiceTests {
     }
     
     /**
-     * Tests {@link PetService.testDeletePetById(Long)}
+     * Tests {@link PetService.findPetByStatus(Collection<Status>)}
      */
     @Test
     @Transactional(propagation = Propagation.REQUIRES_NEW) // rolls back the transaction in each test
     public void testFindPetByStatus() {
         // find the availables
-        Collection<Pet> av = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE}));
+        Iterable<Pet> av = petService.findPetByStatus(Arrays.asList(new Status[]{Status.AVAILABLE}));
         Assert.assertNotNull(av);
-        Assert.assertTrue(av.size() == 1);
+        Assert.assertTrue(Iterables.size(av) == 1);
         
         // find the pending
-        Collection<Pet> pe = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.PENDING}));
+        Iterable<Pet> pe = petService.findPetByStatus(Arrays.asList(new Status[]{Status.PENDING}));
         Assert.assertNotNull(pe);
-        Assert.assertTrue(pe.size() == 1);
+        Assert.assertTrue(Iterables.size(pe) == 1);
         
         // find the sold
-        Collection<Pet> so = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.SOLD}));
+        Iterable<Pet> so = petService.findPetByStatus(Arrays.asList(new Status[]{Status.SOLD}));
         Assert.assertNotNull(so);
-        Assert.assertTrue(so.size() == 1);
+        Assert.assertTrue(Iterables.size(so) == 1);
         
         // find the available and pending
-        Collection<Pet> avpe = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE, Status.PENDING}));
+        Iterable<Pet> avpe = petService.findPetByStatus(Arrays.asList(new Status[]{Status.AVAILABLE, Status.PENDING}));
         Assert.assertNotNull(avpe);
-        Assert.assertTrue(avpe.size() == 2);
+        Assert.assertTrue(Iterables.size(avpe) == 2);
        
         // find the available and sold
-        Collection<Pet> avso = petRepo.findByStatusIn(Arrays.asList(new Status[]{Status.AVAILABLE, Status.SOLD}));
+        Iterable<Pet> avso = petService.findPetByStatus(Arrays.asList(new Status[]{Status.AVAILABLE, Status.SOLD}));
         Assert.assertNotNull(avso);
-        Assert.assertTrue(avso.size() == 2);
+        Assert.assertTrue(Iterables.size(avso) == 2);
         
         // find all statuses
-        Collection<Pet> all = petRepo.findByStatusIn(Arrays.asList(Status.values()));
+        Iterable<Pet> all = petService.findPetByStatus(Arrays.asList(Status.values()));
         Assert.assertNotNull(all);
-        Assert.assertTrue(all.size() == 3);
+        Assert.assertTrue(Iterables.size(all) == 3);
         
     }
     
